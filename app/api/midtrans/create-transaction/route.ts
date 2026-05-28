@@ -2,6 +2,8 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createSnapTransaction, generateOrderId } from '@/lib/midtrans';
 import { createTransaction, getProject, getUser } from '@/lib/firestore';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();

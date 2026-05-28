@@ -3,6 +3,8 @@ import { verifySignature } from '@/lib/midtrans';
 import { processSuccessfulPayment, getTransactionByOrderId, updateTransaction } from '@/lib/firestore';
 import type { MidtransNotification } from '@/types';
 
+export const dynamic = 'force-dynamic';
+
 export async function POST(request: NextRequest) {
   try {
     const body: MidtransNotification = await request.json();
