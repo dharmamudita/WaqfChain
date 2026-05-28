@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from 'react';
 import { subscribeToMessages, sendMessage as sendMsg, createChat, getChat } from '@/lib/firestore';
 import type { Message } from '@/types';
 import { Timestamp } from 'firebase/firestore';
+import toast from 'react-hot-toast';
 
 export function useChat(chatId: string | null, userId?: string, userName?: string) {
   const [messages, setMessages] = useState<Message[]>([]);
@@ -28,24 +29,29 @@ export function useChat(chatId: string | null, userId?: string, userName?: strin
     async (text: string, senderRole: 'user' | 'admin') => {
       if (!chatId || !userId) return;
 
-      // Ensure chat document exists
-      const existingChat = await getChat(chatId);
-      if (!existingChat) {
-        await createChat({
-          chatId,
-          userId,
-          userName: userName || 'Pengguna',
-          lastMessage: text,
-          isRead: false,
-        });
-      }
+      try {
+        // Ensure chat document exists
+        const existingChat = await getChat(chatId);
+        if (!existingChat) {
+          await createChat({
+            chatId,
+            userId,
+            userName: userName || 'Pengguna',
+            lastMessage: text,
+            isRead: false,
+          });
+        }
 
-      await sendMsg(chatId, {
-        messageId: '',
-        senderId: userId,
-        senderRole,
-        text,
-      });
+        await sendMsg(chatId, {
+          messageId: '',
+          senderId: userId,
+          senderRole,
+          text,
+        });
+      } catch (error: any) {
+        console.error('Failed to send message:', error);
+        toast.error('Gagal mengirim pesan: ' + (error.message || 'Error tidak diketahui'));
+      }
     },
     [chatId, userId, userName]
   );
