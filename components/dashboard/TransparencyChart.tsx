@@ -2,27 +2,13 @@
 
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from 'recharts';
 
-const demoData = [
-  { month: 'Jan', amount: 125000000 },
-  { month: 'Feb', amount: 187000000 },
-  { month: 'Mar', amount: 215000000 },
-  { month: 'Apr', amount: 298000000 },
-  { month: 'Mei', amount: 342000000 },
-  { month: 'Jun', amount: 405000000 },
-  { month: 'Jul', amount: 378000000 },
-  { month: 'Aug', amount: 456000000 },
-  { month: 'Sep', amount: 512000000 },
-  { month: 'Okt', amount: 489000000 },
-  { month: 'Nov', amount: 567000000 },
-  { month: 'Des', amount: 623000000 },
-];
 
 interface TransparencyChartProps {
   data?: { month: string; amount: number }[];
 }
 
 export default function TransparencyChart({ data }: TransparencyChartProps) {
-  const chartData = data || demoData;
+  const chartData = data || [];
 
   const formatAmount = (value: number) => {
     if (value >= 1000000000) return `${(value / 1000000000).toFixed(1)}M`;

@@ -11,20 +11,6 @@ import toast from 'react-hot-toast';
 import type { Transaction } from '@/types';
 import { Timestamp } from 'firebase/firestore';
 
-const demoTransaction: Transaction = {
-  txId: 'tx_demo_12345',
-  orderId: 'WAKAF-1234567890-ABC123',
-  userId: 'user_demo',
-  projectId: '1',
-  projectTitle: 'Wakaf Kebun Produktif Cianjur',
-  amount: 100000,
-  percentage: 0.02,
-  qrCodeUrl: '',
-  paymentMethod: 'gopay',
-  status: 'success',
-  midtransToken: '',
-  createdAt: Timestamp.now(),
-};
 
 export default function TokenPage() {
   const params = useParams();
@@ -38,8 +24,8 @@ export default function TokenPage() {
   useEffect(() => {
     if (txId) {
       getTransaction(txId)
-        .then((tx) => setTransaction(tx || demoTransaction))
-        .catch(() => setTransaction(demoTransaction))
+        .then((tx) => setTransaction(tx))
+        .catch(console.error)
         .finally(() => setLoading(false));
     }
   }, [txId]);

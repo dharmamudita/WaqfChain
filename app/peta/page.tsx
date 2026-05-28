@@ -7,13 +7,6 @@ import Badge from '@/components/ui/Badge';
 import type { Project } from '@/types';
 import { Timestamp } from 'firebase/firestore';
 
-const demoProjects: Project[] = [
-  { id: '1', title: 'Wakaf Kebun Produktif Cianjur', description: 'Kebun produktif 2 hektar', type: 'kebun', targetAmount: 500000000, collectedAmount: 325000000, progressPercent: 65, mediaUrls: [], location: { lat: -6.8, lng: 107.1, address: 'Cianjur, Jawa Barat' }, status: 'aktif', createdAt: Timestamp.now(), updatedAt: Timestamp.now() },
-  { id: '2', title: 'Sumur Bor Desa Terpencil NTT', description: 'Sumur bor untuk 5 desa', type: 'sumur', targetAmount: 250000000, collectedAmount: 187500000, progressPercent: 75, mediaUrls: [], location: { lat: -10.1, lng: 123.6, address: 'Kupang, NTT' }, status: 'aktif', createdAt: Timestamp.now(), updatedAt: Timestamp.now() },
-  { id: '3', title: 'Beasiswa Pendidikan Anak Yatim', description: 'Beasiswa 100 anak', type: 'pendidikan', targetAmount: 1000000000, collectedAmount: 420000000, progressPercent: 42, mediaUrls: [], location: { lat: -6.2, lng: 106.8, address: 'Jakarta' }, status: 'aktif', createdAt: Timestamp.now(), updatedAt: Timestamp.now() },
-  { id: '4', title: 'Wakaf UMKM Batik Pekalongan', description: 'Modal usaha batik', type: 'umkm', targetAmount: 300000000, collectedAmount: 120000000, progressPercent: 40, mediaUrls: [], location: { lat: -6.89, lng: 109.67, address: 'Pekalongan, Jawa Tengah' }, status: 'aktif', createdAt: Timestamp.now(), updatedAt: Timestamp.now() },
-  { id: '5', title: 'Pembangunan Masjid Desa Sulawesi', description: 'Masjid permanen', type: 'properti', targetAmount: 750000000, collectedAmount: 450000000, progressPercent: 60, mediaUrls: [], location: { lat: -1.43, lng: 121.45, address: 'Palu, Sulawesi Tengah' }, status: 'aktif', createdAt: Timestamp.now(), updatedAt: Timestamp.now() },
-];
 
 const typeIcons: Record<string, string> = {
   kebun: '🌱', umkm: '🏪', sumur: '💧', pendidikan: '📚', properti: '🏠',
@@ -26,15 +19,15 @@ function formatCurrency(amount: number) {
 }
 
 export default function PetaPage() {
-  const [projects, setProjects] = useState<Project[]>(demoProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [selectedProject, setSelectedProject] = useState<Project | null>(null);
 
   useEffect(() => {
     getProjects({ status: 'aktif' })
       .then((data) => {
-        if (data.length > 0) setProjects(data);
+        setProjects(data);
       })
-      .catch(() => {});
+      .catch(console.error);
   }, []);
 
   return (

@@ -17,9 +17,6 @@ const typeLabels: Record<string, string> = {
   kebun: '🌱 Kebun', umkm: '🏪 UMKM', sumur: '💧 Sumur', pendidikan: '📚 Pendidikan', properti: '🏠 Properti',
 };
 
-const demoProject: Project = {
-  id: '1', title: 'Wakaf Kebun Produktif Cianjur', description: 'Membangun kebun produktif seluas 2 hektar untuk pemberdayaan ekonomi umat di Cianjur, Jawa Barat. Program ini bertujuan menciptakan kemandirian ekonomi masyarakat melalui pertanian organik yang berkelanjutan.\n\nLahan wakaf akan ditanami berbagai komoditas seperti sayuran organik, buah-buahan, dan tanaman herbal. Hasil panen akan dijual dan keuntungannya disalurkan untuk program-program sosial di sekitar lokasi.\n\nTarget penerima manfaat langsung: 200+ keluarga.', type: 'kebun', targetAmount: 500000000, collectedAmount: 325000000, progressPercent: 65, mediaUrls: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=800&h=500&fit=crop', 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=800&h=500&fit=crop', 'https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=800&h=500&fit=crop'], location: { lat: -6.8, lng: 107.1, address: 'Cianjur, Jawa Barat' }, status: 'aktif', createdAt: Timestamp.now(), updatedAt: Timestamp.now(),
-};
 
 export default function ProjectDetailPage() {
   const params = useParams();
@@ -38,7 +35,7 @@ export default function ProjectDetailPage() {
       getProjectDonors(id).catch(() => []),
     ])
       .then(([proj, don]) => {
-        setProject(proj || demoProject);
+        setProject(proj);
         setDonors(don);
       })
       .finally(() => setLoading(false));

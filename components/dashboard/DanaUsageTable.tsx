@@ -2,13 +2,6 @@
 
 import type { DanaUsage } from '@/types';
 
-const demoData: (DanaUsage & { id: string })[] = [
-  { id: '1', projectId: '1', category: 'Pembelian Bibit', amount: 25000000, description: 'Pembelian 500 bibit tanaman organik', receiptUrl: 'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=200', date: { toDate: () => new Date('2024-01-15') } as any },
-  { id: '2', projectId: '1', category: 'Pengolahan Lahan', amount: 45000000, description: 'Biaya pengolahan lahan 2 hektar', receiptUrl: 'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=200', date: { toDate: () => new Date('2024-02-01') } as any },
-  { id: '3', projectId: '2', category: 'Material Sumur', amount: 75000000, description: 'Pembelian pipa, pompa, dan material', receiptUrl: 'https://images.unsplash.com/photo-1541544741-207e8c12bc53?w=200', date: { toDate: () => new Date('2024-02-15') } as any },
-  { id: '4', projectId: '1', category: 'Tenaga Kerja', amount: 35000000, description: 'Upah pekerja selama 3 bulan', receiptUrl: '', date: { toDate: () => new Date('2024-03-01') } as any },
-  { id: '5', projectId: '3', category: 'Biaya Pendidikan', amount: 120000000, description: 'Pembayaran biaya sekolah 100 anak', receiptUrl: 'https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=200', date: { toDate: () => new Date('2024-03-15') } as any },
-];
 
 interface DanaUsageTableProps {
   data?: DanaUsage[];
@@ -19,7 +12,7 @@ function formatCurrency(amount: number) {
 }
 
 export default function DanaUsageTable({ data }: DanaUsageTableProps) {
-  const tableData = data || demoData;
+  const tableData = data || [];
 
   return (
     <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">

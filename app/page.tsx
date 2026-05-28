@@ -10,64 +10,17 @@ import { getProjects } from '@/lib/firestore';
 import type { Project } from '@/types';
 import { Timestamp } from 'firebase/firestore';
 
-// Demo projects for when Firebase is not configured
-const demoProjects: Project[] = [
-  {
-    id: '1',
-    title: 'Wakaf Kebun Produktif Cianjur',
-    description: 'Membangun kebun produktif seluas 2 hektar untuk pemberdayaan ekonomi umat di Cianjur, Jawa Barat.',
-    type: 'kebun',
-    targetAmount: 500000000,
-    collectedAmount: 325000000,
-    progressPercent: 65,
-    mediaUrls: ['https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600&h=400&fit=crop'],
-    location: { lat: -6.8, lng: 107.1, address: 'Cianjur, Jawa Barat' },
-    status: 'aktif',
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
-  },
-  {
-    id: '2',
-    title: 'Sumur Bor Desa Terpencil NTT',
-    description: 'Pembangunan sumur bor untuk akses air bersih di 5 desa terpencil di Nusa Tenggara Timur.',
-    type: 'sumur',
-    targetAmount: 250000000,
-    collectedAmount: 187500000,
-    progressPercent: 75,
-    mediaUrls: ['https://images.unsplash.com/photo-1541544741-207e8c12bc53?w=600&h=400&fit=crop'],
-    location: { lat: -10.1, lng: 123.6, address: 'Kupang, NTT' },
-    status: 'aktif',
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
-  },
-  {
-    id: '3',
-    title: 'Beasiswa Pendidikan Anak Yatim',
-    description: 'Program beasiswa pendidikan untuk 100 anak yatim dan dhuafa di seluruh Indonesia.',
-    type: 'pendidikan',
-    targetAmount: 1000000000,
-    collectedAmount: 420000000,
-    progressPercent: 42,
-    mediaUrls: ['https://images.unsplash.com/photo-1497633762265-9d179a990aa6?w=600&h=400&fit=crop'],
-    location: { lat: -6.2, lng: 106.8, address: 'Jakarta, Indonesia' },
-    status: 'aktif',
-    createdAt: Timestamp.now(),
-    updatedAt: Timestamp.now(),
-  },
-];
 
 export default function HomePage() {
-  const [projects, setProjects] = useState<Project[]>(demoProjects);
+  const [projects, setProjects] = useState<Project[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     getProjects({ status: 'aktif', limitCount: 3 })
       .then((data) => {
-        if (data.length > 0) setProjects(data);
+        setProjects(data);
       })
-      .catch(() => {
-        // Use demo data
-      })
+      .catch(console.error)
       .finally(() => setLoading(false));
   }, []);
 
