@@ -43,6 +43,7 @@ const MapPicker = dynamic(() => import('@/components/admin/MapPicker'), {
 export default function ProjectForm({ projectId }: ProjectFormProps) {
   const [loading, setLoading] = useState(false);
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
+  const [initialLocation, setInitialLocation] = useState<{lat: number, lng: number} | undefined>(undefined);
   const router = useRouter();
   const isEdit = !!projectId;
 
@@ -59,6 +60,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
           setValue('lat', p.location.lat);
           setValue('lng', p.location.lng);
           setValue('address', p.location.address);
+          setInitialLocation({ lat: p.location.lat, lng: p.location.lng });
           setMediaUrls(p.mediaUrls);
         }
       });
@@ -149,13 +151,17 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
         <h3 className="text-lg font-bold font-heading text-gray-900">Lokasi</h3>
         
         <div className="mb-4">
-          <MapPicker 
-            defaultLocation={isEdit && projectId ? { lat: Number(register('lat').value), lng: Number(register('lng').value) } : undefined}
-            onChange={(lat, lng) => {
-              setValue('lat', lat, { shouldValidate: true });
-              setValue('lng', lng, { shouldValidate: true });
-            }}
-          />
+          {(!isEdit || initialLocation) ? (
+            <MapPicker 
+              defaultLocation={initialLocation}
+              onChange={(lat, lng) => {
+                setValue('lat', lat, { shouldValidate: true });
+                setValue('lng', lng, { shouldValidate: true });
+              }}
+            />
+          ) : (
+            <div className="h-[400px] bg-gray-100 animate-pulse rounded-xl flex items-center justify-center">Memuat data lokasi...</div>
+          )}
         </div>
 
         <div className="grid grid-cols-2 gap-4 hidden">
