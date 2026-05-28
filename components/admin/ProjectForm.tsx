@@ -4,6 +4,8 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { createProject, updateProject, getProject } from '@/lib/firestore';
+import { uploadImage } from '@/lib/firestore';
+import dynamic from 'next/dynamic';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Input';
@@ -31,6 +33,12 @@ const projectTypes: { value: ProjectType; label: string }[] = [
   { value: 'pendidikan', label: '📚 Pendidikan' },
   { value: 'properti', label: '🏠 Properti' },
 ];
+
+const MapPicker = dynamic(() => import('@/components/admin/MapPicker'), {
+  ssr: false,
+  loading: () => <div className="h-[400px] bg-gray-100 animate-pulse rounded-xl flex items-center justify-center">Memuat peta...</div>
+});
+
 
 export default function ProjectForm({ projectId }: ProjectFormProps) {
   const [loading, setLoading] = useState(false);
@@ -89,9 +97,25 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
     }
   };
 
-  const handleMediaUrlAdd = () => {
-    const url = prompt('Masukkan URL gambar:');
-    if (url) setMediaUrls([...mediaUrls, url]);
+  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // Check size (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('Ukuran gambar maksimal 2MB');
+      return;
+    }
+
+    const toastId = toast.loading('Mengunggah gambar...');
+    try {
+      const url = await uploadImage(file, 'projects');
+      setMediaUrls(prev => [...prev, url]);
+      toast.success('Gambar berhasil diunggah', { id: toastId });
+    } catch (error) {
+      console.error(error);
+      toast.error('Gagal mengunggah gambar', { id: toastId });
+    }
   };
 
   return (
@@ -123,11 +147,25 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
       {/* Location */}
       <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm space-y-5">
         <h3 className="text-lg font-bold font-heading text-gray-900">Lokasi</h3>
-        <div className="grid grid-cols-2 gap-4">
-          <Input label="Latitude" type="number" step="any" placeholder="-6.2088" {...register('lat')} />
-          <Input label="Longitude" type="number" step="any" placeholder="106.8456" {...register('lng')} />
+        
+        <div className="mb-4">
+          <MapPicker 
+            defaultLocation={isEdit && projectId ? { lat: Number(register('lat').value), lng: Number(register('lng').value) } : undefined}
+            onChange={(lat, lng) => {
+              setValue('lat', lat, { shouldValidate: true });
+              setValue('lng', lng, { shouldValidate: true });
+            }}
+          />
         </div>
-        <Input label="Alamat" placeholder="Jakarta, Indonesia" {...register('address')} />
+
+        <div className="grid grid-cols-2 gap-4 hidden">
+          <Input label="Latitude" type="number" step="any" placeholder="-6.2088" {...register('lat', { required: 'Pilih lokasi di peta' })} />
+          <Input label="Longitude" type="number" step="any" placeholder="106.8456" {...register('lng', { required: 'Pilih lokasi di peta' })} />
+        </div>
+        
+        {errors.lat && <p className="text-red-500 text-sm mt-1">{errors.lat.message}</p>}
+
+        <Input label="Alamat / Deskripsi Lokasi Singkat" placeholder="Misal: Desa Margajaya, Kec. Cianjur" {...register('address', { required: 'Alamat wajib diisi' })} error={errors.address?.message} />
       </div>
 
       {/* Media */}
@@ -148,16 +186,13 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
               </button>
             </div>
           ))}
-          <button
-            type="button"
-            onClick={handleMediaUrlAdd}
-            className="h-24 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-teal-400 hover:text-teal-500 transition-colors"
-          >
+          <label className="h-24 rounded-xl border-2 border-dashed border-gray-300 flex flex-col items-center justify-center gap-1 text-gray-400 hover:border-teal-400 hover:text-teal-500 transition-colors cursor-pointer">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
             </svg>
-            <span className="text-xs">Tambah</span>
-          </button>
+            <span className="text-xs">Upload</span>
+            <input type="file" accept="image/*" className="hidden" onChange={handleFileUpload} />
+          </label>
         </div>
       </div>
 

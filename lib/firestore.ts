@@ -18,8 +18,16 @@ import {
   DocumentData,
   QueryConstraint,
 } from 'firebase/firestore';
-import { db } from './firebase';
+import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import { db, storage } from './firebase';
 import type { User, Project, Transaction, Chat, Message, DanaUsage, ProjectType } from '@/types';
+
+// ===== STORAGE =====
+export async function uploadImage(file: File, path: string): Promise<string> {
+  const storageRef = ref(storage, path);
+  await uploadBytes(storageRef, file);
+  return await getDownloadURL(storageRef);
+}
 
 // ===== USERS =====
 export async function createUser(uid: string, data: Omit<User, 'uid' | 'createdAt' | 'totalWakaf'>) {
