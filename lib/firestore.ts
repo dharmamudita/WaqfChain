@@ -18,15 +18,13 @@ import {
   DocumentData,
   QueryConstraint,
 } from 'firebase/firestore';
-import { ref, uploadBytes, getDownloadURL } from 'firebase/storage';
-import { db, storage } from './firebase';
+import { db } from './firebase';
+import { uploadToCloudinary } from './cloudinary';
 import type { User, Project, Transaction, Chat, Message, DanaUsage, ProjectType } from '@/types';
 
 // ===== STORAGE =====
 export async function uploadImage(file: File, path: string): Promise<string> {
-  const storageRef = ref(storage, path);
-  await uploadBytes(storageRef, file);
-  return await getDownloadURL(storageRef);
+  return await uploadToCloudinary(file);
 }
 
 // ===== USERS =====
@@ -54,21 +52,23 @@ export async function getProjects(filters?: {
   status?: string;
   limitCount?: number;
 }): Promise<Project[]> {
-  const constraints: QueryConstraint[] = [orderBy('createdAt', 'desc')];
+  // Always fetch all projects ordered by date to avoid Firebase composite index errors
+  const q = query(collection(db, 'projects'), orderBy('createdAt', 'desc'));
+  const snap = await getDocs(q);
+  let projects = snap.docs.map((d) => ({ id: d.id, ...d.data() } as Project));
 
+  // Apply filters locally in JavaScript
   if (filters?.type) {
-    constraints.unshift(where('type', '==', filters.type));
+    projects = projects.filter(p => p.type === filters.type);
   }
   if (filters?.status) {
-    constraints.unshift(where('status', '==', filters.status));
+    projects = projects.filter(p => p.status === filters.status);
   }
   if (filters?.limitCount) {
-    constraints.push(limit(filters.limitCount));
+    projects = projects.slice(0, filters.limitCount);
   }
 
-  const q = query(collection(db, 'projects'), ...constraints);
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as Project));
+  return projects;
 }
 
 export async function getProject(id: string): Promise<Project | null> {
@@ -140,6 +140,7 @@ export async function getUserTransactions(userId: string): Promise<Transaction[]
 }
 
 export async function getAllTransactions(): Promise<Transaction[]> {
+  // Avoid composite index by just ordering by createdAt
   const q = query(collection(db, 'transactions'), orderBy('createdAt', 'desc'));
   const snap = await getDocs(q);
   return snap.docs.map((d) => d.data() as Transaction);
@@ -154,6 +155,31 @@ export async function getProjectDonors(projectId: string): Promise<Transaction[]
   );
   const snap = await getDocs(q);
   return snap.docs.map((d) => d.data() as Transaction);
+}
+
+// ===== DANA USAGE =====
+export async function createDanaUsage(data: Omit<DanaUsage, 'id' | 'createdAt' | 'date'>) {
+  const docRef = await addDoc(collection(db, 'danaUsages'), {
+    ...data,
+    date: Timestamp.now(),
+  });
+  return docRef.id;
+}
+
+export async function getDanaUsages(projectId?: string): Promise<DanaUsage[]> {
+  let q;
+  if (projectId) {
+    // Avoid composite index error by just fetching all and filtering in JS if needed
+    q = query(collection(db, 'danaUsages'), orderBy('date', 'desc'));
+  } else {
+    q = query(collection(db, 'danaUsages'), orderBy('date', 'desc'));
+  }
+  const snap = await getDocs(q);
+  let usages = snap.docs.map((d) => ({ id: d.id, ...d.data() } as DanaUsage));
+  if (projectId) {
+    usages = usages.filter(u => u.projectId === projectId);
+  }
+  return usages;
 }
 
 // ===== CHATS =====
@@ -218,26 +244,6 @@ export function subscribeToMessages(chatId: string, callback: (messages: Message
   });
 }
 
-// ===== DANA USAGE =====
-export async function getDanaUsage(projectId?: string): Promise<DanaUsage[]> {
-  let q;
-  if (projectId) {
-    q = query(
-      collection(db, 'dana_usage'),
-      where('projectId', '==', projectId),
-      orderBy('date', 'desc')
-    );
-  } else {
-    q = query(collection(db, 'dana_usage'), orderBy('date', 'desc'));
-  }
-  const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as DanaUsage));
-}
-
-export async function createDanaUsage(data: Omit<DanaUsage, 'id'>) {
-  const docRef = await addDoc(collection(db, 'dana_usage'), data);
-  return docRef.id;
-}
 
 // ===== STATS =====
 export async function getStats() {

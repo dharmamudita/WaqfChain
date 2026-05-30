@@ -1,6 +1,7 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import { getStats } from '@/lib/firestore';
 
 const stats = [
   {
@@ -102,6 +103,57 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
 }
 
 export default function StatsSection() {
+  const [realStats, setRealStats] = useState({
+    collected: 2847000000, // Fallback dummy
+    projects: 24, // Fallback dummy
+    donors: 1847, // Fallback dummy
+  });
+
+  useEffect(() => {
+    getStats().then((data) => {
+      if (data.totalProjects > 0 || data.totalCollected > 0) {
+        setRealStats({
+          collected: data.totalCollected,
+          projects: data.totalProjects,
+          donors: data.totalDonors,
+        });
+      }
+    }).catch(console.error);
+  }, []);
+
+  // Format the collected amount dynamically based on its size
+  let collectedValue = realStats.collected;
+  let collectedSuffix = '';
+  if (realStats.collected >= 1000000000) {
+    collectedValue = realStats.collected / 1000000000;
+    collectedSuffix = 'M+';
+  } else if (realStats.collected >= 1000000) {
+    collectedValue = realStats.collected / 1000000;
+    collectedSuffix = 'Jt+';
+  } else if (realStats.collected >= 1000) {
+    collectedValue = realStats.collected / 1000;
+    collectedSuffix = 'Rb+';
+  }
+
+  const displayStats = [
+    {
+      ...stats[0],
+      value: collectedValue,
+      suffix: collectedSuffix,
+    },
+    {
+      ...stats[1],
+      value: realStats.projects,
+    },
+    {
+      ...stats[2],
+      value: realStats.donors,
+    },
+    {
+      ...stats[3], // Kepuasan remains 98%
+    }
+  ];
+
   return (
     <section className="py-16 md:py-20 bg-gray-50/50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -115,7 +167,7 @@ export default function StatsSection() {
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
-          {stats.map((stat, idx) => (
+          {displayStats.map((stat, idx) => (
             <div
               key={idx}
               className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1 text-center"

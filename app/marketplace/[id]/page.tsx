@@ -6,6 +6,7 @@ import { getProject, getProjectDonors } from '@/lib/firestore';
 import DonateModal from '@/components/marketplace/DonateModal';
 import Badge, { getStatusBadge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
+import MapViewer from '@/components/ui/MapViewer';
 import type { Project, Transaction } from '@/types';
 import { Timestamp } from 'firebase/firestore';
 
@@ -108,6 +109,25 @@ export default function ProjectDetailPage() {
                 {project.description.split('\n').map((p, i) => (
                   <p key={i} className="text-gray-600 leading-relaxed mb-3">{p}</p>
                 ))}
+              </div>
+            </div>
+
+            {/* Location Map */}
+            <div className="bg-white rounded-2xl p-6 border border-gray-100">
+              <h3 className="text-lg font-bold font-heading text-gray-900 mb-4">
+                Lokasi Proyek
+              </h3>
+              <div className="mb-4">
+                <MapViewer 
+                  markers={[{
+                    id: project.id,
+                    lat: project.location.lat,
+                    lng: project.location.lng,
+                    title: project.title,
+                    address: project.location.address
+                  }]}
+                  className="w-full h-[350px]"
+                />
               </div>
             </div>
 

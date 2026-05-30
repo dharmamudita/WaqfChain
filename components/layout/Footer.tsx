@@ -35,9 +35,9 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 font-heading">Informasi</h4>
             <ul className="space-y-2.5">
-              <li><Link href="#" className="text-sm hover:text-teal-400 transition-colors">Tentang Kami</Link></li>
-              <li><Link href="#" className="text-sm hover:text-teal-400 transition-colors">Cara Kerja</Link></li>
-              <li><Link href="#" className="text-sm hover:text-teal-400 transition-colors">FAQ</Link></li>
+              <li><Link href="/tentang" className="text-sm hover:text-teal-400 transition-colors">Tentang Kami</Link></li>
+              <li><Link href="/cara-kerja" className="text-sm hover:text-teal-400 transition-colors">Cara Kerja</Link></li>
+              <li><Link href="/faq" className="text-sm hover:text-teal-400 transition-colors">FAQ</Link></li>
               <li><Link href="/chat" className="text-sm hover:text-teal-400 transition-colors">Hubungi Kami</Link></li>
             </ul>
           </div>
@@ -45,9 +45,9 @@ export default function Footer() {
           <div>
             <h4 className="text-white font-semibold mb-4 font-heading">Legal</h4>
             <ul className="space-y-2.5">
-              <li><Link href="#" className="text-sm hover:text-teal-400 transition-colors">Syarat & Ketentuan</Link></li>
-              <li><Link href="#" className="text-sm hover:text-teal-400 transition-colors">Kebijakan Privasi</Link></li>
-              <li><Link href="#" className="text-sm hover:text-teal-400 transition-colors">Lisensi</Link></li>
+              <li><Link href="/syarat-ketentuan" className="text-sm hover:text-teal-400 transition-colors">Syarat & Ketentuan</Link></li>
+              <li><Link href="/privasi" className="text-sm hover:text-teal-400 transition-colors">Kebijakan Privasi</Link></li>
+              <li><Link href="/lisensi" className="text-sm hover:text-teal-400 transition-colors">Lisensi</Link></li>
             </ul>
           </div>
         </div>

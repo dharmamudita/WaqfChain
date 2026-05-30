@@ -4,6 +4,7 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { getProjects } from '@/lib/firestore';
 import Badge from '@/components/ui/Badge';
+import MapViewer, { MapMarker } from '@/components/ui/MapViewer';
 import type { Project } from '@/types';
 import { Timestamp } from 'firebase/firestore';
 
@@ -48,66 +49,36 @@ export default function PetaPage() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Map Area */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm" style={{ height: '600px' }}>
-              {/* Static Map Placeholder - replace with Google Maps when API key is available */}
-              <div className="w-full h-full relative bg-gradient-to-br from-teal-50 to-blue-50 flex items-center justify-center">
-                {/* Indonesia Map SVG Simplified */}
-                <svg viewBox="0 0 800 400" className="w-full h-full p-8 opacity-20">
-                  <path d="M200,150 Q250,120 300,140 Q350,160 400,150 Q450,130 500,160 Q550,140 600,150 L600,200 Q550,190 500,210 Q450,220 400,200 Q350,210 300,190 Q250,180 200,200 Z" fill="#0F6E56" />
-                  <path d="M100,200 Q150,180 200,200 Q220,210 200,230 Q180,240 150,230 Q120,220 100,200Z" fill="#0F6E56" />
-                  <path d="M600,180 Q650,160 700,180 Q720,200 700,220 Q680,230 650,220 Q620,200 600,180Z" fill="#0F6E56" />
-                </svg>
+            <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-4 h-[600px] relative">
+              <MapViewer 
+                markers={projects.map(p => ({
+                  id: p.id,
+                  lat: p.location.lat,
+                  lng: p.location.lng,
+                  title: p.title,
+                  address: p.location.address,
+                  linkUrl: `/marketplace/${p.id}`
+                }))}
+                className="w-full h-full"
+              />
 
-                {/* Project Pins */}
-                {projects.map((p) => {
-                  // Simple lat/lng to position mapping for Indonesia
-                  const x = ((p.location.lng - 95) / (141 - 95)) * 100;
-                  const y = ((p.location.lat + 11) / (11 + 6)) * 100;
-                  return (
-                    <button
-                      key={p.id}
-                      onClick={() => setSelectedProject(p)}
-                      className={`absolute transform -translate-x-1/2 -translate-y-1/2 z-10 group ${
-                        selectedProject?.id === p.id ? 'z-20' : ''
-                      }`}
-                      style={{ left: `${Math.max(10, Math.min(90, x))}%`, top: `${Math.max(10, Math.min(90, 100 - y))}%` }}
-                    >
-                      <div className={`relative ${selectedProject?.id === p.id ? 'scale-125' : ''} transition-transform`}>
-                        <div className={`w-10 h-10 rounded-full flex items-center justify-center text-lg shadow-lg border-2 border-white ${
-                          selectedProject?.id === p.id ? 'bg-amber-500 animate-pulse-glow' : 'bg-teal-600'
-                        }`}>
-                          {typeIcons[p.type] || '📍'}
-                        </div>
-                        {/* Tooltip */}
-                        <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none">
-                          <div className="bg-gray-900 text-white text-xs rounded-lg px-3 py-2 whitespace-nowrap shadow-xl">
-                            {p.title}
-                            <div className="absolute top-full left-1/2 -translate-x-1/2 w-2 h-2 bg-gray-900 rotate-45" />
-                          </div>
-                        </div>
-                      </div>
-                    </button>
-                  );
-                })}
-
-                {/* Legend */}
-                <div className="absolute bottom-4 left-4 bg-white/90 backdrop-blur rounded-xl p-3 shadow-sm border border-gray-100">
-                  <p className="text-xs font-semibold text-gray-700 mb-2">Legenda</p>
-                  <div className="space-y-1">
-                    {Object.entries(typeIcons).map(([type, icon]) => (
-                      <div key={type} className="flex items-center gap-1.5 text-xs text-gray-600">
-                        <span>{icon}</span>
-                        <span className="capitalize">{type}</span>
-                      </div>
-                    ))}
-                  </div>
+              {/* Float overlays inside Map Container but above Leaflet */}
+              <div className="absolute bottom-6 left-6 z-[1000] bg-white/90 backdrop-blur rounded-xl p-3 shadow-sm border border-gray-100 pointer-events-none">
+                <p className="text-xs font-semibold text-gray-700 mb-2">Legenda</p>
+                <div className="space-y-1">
+                  {Object.entries(typeIcons).map(([type, icon]) => (
+                    <div key={type} className="flex items-center gap-1.5 text-xs text-gray-600">
+                      <span>{icon}</span>
+                      <span className="capitalize">{type}</span>
+                    </div>
+                  ))}
                 </div>
+              </div>
 
-                <div className="absolute top-4 right-4 bg-white/90 backdrop-blur rounded-xl px-4 py-2 shadow-sm border border-gray-100">
-                  <p className="text-xs text-gray-500">
-                    <span className="font-semibold text-teal-700">{projects.length}</span> proyek aktif
-                  </p>
-                </div>
+              <div className="absolute top-6 right-6 z-[1000] bg-white/90 backdrop-blur rounded-xl px-4 py-2 shadow-sm border border-gray-100 pointer-events-none">
+                <p className="text-xs text-gray-500">
+                  <span className="font-semibold text-teal-700">{projects.length}</span> proyek aktif
+                </p>
               </div>
             </div>
           </div>
