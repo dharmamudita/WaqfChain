@@ -9,19 +9,21 @@ interface MediaGalleryProps {
 export default function MediaGallery({ mediaUrls }: MediaGalleryProps) {
   const [selectedIdx, setSelectedIdx] = useState<number | null>(null);
 
-  const images = mediaUrls.length > 0 ? mediaUrls : [
-    'https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1464226184884-fa280b87c399?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?w=400&h=300&fit=crop',
-    'https://images.unsplash.com/photo-1541544741-207e8c12bc53?w=400&h=300&fit=crop',
-  ];
+  if (mediaUrls.length === 0) {
+    return (
+      <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm text-center">
+        <h3 className="text-lg font-bold font-heading text-gray-900 mb-1">Galeri Media</h3>
+        <p className="text-sm text-gray-400 py-8">Belum ada media yang diunggah.</p>
+      </div>
+    );
+  }
 
   return (
     <>
       <div className="bg-white rounded-2xl p-6 border border-gray-100 shadow-sm">
         <h3 className="text-lg font-bold font-heading text-gray-900 mb-4">Galeri Media</h3>
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-          {images.map((url, idx) => (
+          {mediaUrls.map((url, idx) => (
             <button
               key={idx}
               onClick={() => setSelectedIdx(idx)}
@@ -41,7 +43,7 @@ export default function MediaGallery({ mediaUrls }: MediaGalleryProps) {
       {/* Lightbox */}
       {selectedIdx !== null && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-fadeIn" onClick={() => setSelectedIdx(null)}>
-          <img src={images[selectedIdx]} alt="" className="max-w-full max-h-[90vh] rounded-xl shadow-2xl animate-scaleIn" />
+          <img src={mediaUrls[selectedIdx]} alt="" className="max-w-full max-h-[90vh] rounded-xl shadow-2xl animate-scaleIn" />
           <button onClick={() => setSelectedIdx(null)} className="absolute top-4 right-4 p-2 bg-white/10 rounded-full text-white hover:bg-white/20 transition-colors">
             <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
