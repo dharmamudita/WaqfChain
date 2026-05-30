@@ -104,9 +104,9 @@ function AnimatedNumber({ value, suffix }: { value: number; suffix: string }) {
 
 export default function StatsSection() {
   const [realStats, setRealStats] = useState({
-    collected: 2847000000, // Fallback dummy
-    projects: 24, // Fallback dummy
-    donors: 1847, // Fallback dummy
+    collected: 0,
+    projects: 0,
+    donors: 0,
   });
 
   useEffect(() => {

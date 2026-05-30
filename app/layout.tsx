@@ -68,7 +68,6 @@ export default function RootLayout({
         <Script
           src={snapUrl}
           data-client-key={midtransClientKey}
-          strategy="beforeInteractive"
         />
       </body>
     </html>

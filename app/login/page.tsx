@@ -31,7 +31,7 @@ function LoginForm() {
       document.cookie = `user-role=${userData?.role || 'user'}; path=/; max-age=86400`;
 
       toast.success('Berhasil masuk!');
-      router.push(redirect);
+      window.location.href = redirect;
     } catch (error: unknown) {
       const message = error instanceof Error ? error.message : 'Gagal masuk';
       if (message.includes('user-not-found')) {
