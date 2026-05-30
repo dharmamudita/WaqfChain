@@ -4,8 +4,11 @@ import { useEffect, useState, useCallback } from 'react';
 import Link from 'next/link';
 import { getProjects } from '@/lib/firestore';
 import Badge from '@/components/ui/Badge';
-import MapViewer, { MapMarker } from '@/components/ui/MapViewer';
+import type { MapMarker } from '@/components/ui/MapViewer';
 import type { Project } from '@/types';
+import dynamic from 'next/dynamic';
+
+const MapViewer = dynamic(() => import('@/components/ui/MapViewer'), { ssr: false });
 import { Timestamp } from 'firebase/firestore';
 
 

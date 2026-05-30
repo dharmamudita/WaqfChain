@@ -6,8 +6,10 @@ import { getProject, getProjectDonors } from '@/lib/firestore';
 import DonateModal from '@/components/marketplace/DonateModal';
 import Badge, { getStatusBadge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
-import MapViewer from '@/components/ui/MapViewer';
 import type { Project, Transaction } from '@/types';
+import dynamic from 'next/dynamic';
+
+const MapViewer = dynamic(() => import('@/components/ui/MapViewer'), { ssr: false });
 import { Timestamp } from 'firebase/firestore';
 
 function formatCurrency(amount: number): string {
