@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { createDanaUsage, uploadImage } from '@/lib/firestore';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-import type { Project, DanaUsage } from '@/types';
+import type { Project, DanaUsage, DanaUsageType } from '@/types';
 
 interface DanaUsageModalProps {
   projects: Project[];
@@ -22,6 +22,7 @@ export default function DanaUsageModal({ projects, isOpen, onClose, onSuccess }:
     category: CATEGORIES[0],
     amount: '',
     description: '',
+    usageType: 'penggunaan' as DanaUsageType,
   });
   const [file, setFile] = useState<File | null>(null);
 
@@ -49,6 +50,7 @@ export default function DanaUsageModal({ projects, isOpen, onClose, onSuccess }:
         amount: Number(formData.amount),
         description: formData.description,
         receiptUrl,
+        usageType: formData.usageType,
       };
 
       const id = await createDanaUsage(newUsage);
@@ -103,6 +105,26 @@ export default function DanaUsageModal({ projects, isOpen, onClose, onSuccess }:
                 <option key={c} value={c}>{c}</option>
               ))}
             </select>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-gray-700 mb-1">Tipe Laporan <span className="text-red-500">*</span></label>
+            <div className="flex gap-3">
+              <label className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 cursor-pointer transition-all ${
+                formData.usageType === 'penggunaan' ? 'border-teal-500 bg-teal-50 text-teal-700' : 'border-gray-200 text-gray-500 hover:border-gray-300'
+              }`}>
+                <input type="radio" name="usageType" value="penggunaan" checked={formData.usageType === 'penggunaan'} onChange={() => setFormData({ ...formData, usageType: 'penggunaan' })} className="sr-only" />
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" /></svg>
+                <span className="text-sm font-medium">Penggunaan</span>
+              </label>
+              <label className={`flex-1 flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl border-2 cursor-pointer transition-all ${
+                formData.usageType === 'penyerahan' ? 'border-emerald-500 bg-emerald-50 text-emerald-700' : 'border-gray-200 text-gray-500 hover:border-gray-300'
+              }`}>
+                <input type="radio" name="usageType" value="penyerahan" checked={formData.usageType === 'penyerahan'} onChange={() => setFormData({ ...formData, usageType: 'penyerahan' })} className="sr-only" />
+                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8v13m0-13V6a2 2 0 112 2h-2zm0 0V5.5A2.5 2.5 0 109.5 8H12zm-7 4h14M5 12a2 2 0 110-4h14a2 2 0 110 4M5 12v7a2 2 0 002 2h10a2 2 0 002-2v-7" /></svg>
+                <span className="text-sm font-medium">Penyerahan</span>
+              </label>
+            </div>
           </div>
 
           <div>

@@ -35,7 +35,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
 
   return (
     <Link href={`/marketplace/${project.id}`}>
-      <div className={`group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-500 hover:-translate-y-1 card-shine ${featured ? 'md:col-span-1' : ''}`}>
+      <div className={`group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-premium hover:shadow-premium-hover transition-all duration-500 hover:-translate-y-2 relative ${featured ? 'md:col-span-1' : ''}`}>
         {/* Image */}
         <div className="relative h-48 overflow-hidden">
           <img
@@ -44,14 +44,14 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
             className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
-          <div className="absolute top-3 left-3">
-            <Badge variant={typeColors[project.type] || 'neutral'} size="sm">
+          <div className="absolute top-4 left-4 z-10">
+            <Badge variant={typeColors[project.type] || 'neutral'} size="sm" className="shadow-lg">
               {typeLabels[project.type] || project.type}
             </Badge>
           </div>
           {project.status === 'aktif' && (
-            <div className="absolute top-3 right-3">
-              <span className="flex items-center gap-1 px-2 py-1 bg-white/90 backdrop-blur-sm rounded-full text-xs font-medium text-emerald-600">
+            <div className="absolute top-4 right-4 z-10">
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-white/95 backdrop-blur-md rounded-full text-xs font-bold text-emerald-600 shadow-lg">
                 <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
                 Aktif
               </span>
@@ -60,8 +60,8 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
         </div>
 
         {/* Content */}
-        <div className="p-5">
-          <h3 className="font-bold text-gray-900 font-heading mb-2 line-clamp-2 group-hover:text-teal-700 transition-colors">
+        <div className="p-6">
+          <h3 className="font-bold text-lg text-gray-900 font-heading mb-2 line-clamp-2 group-hover:text-teal-700 transition-colors">
             {project.title}
           </h3>
           <p className="text-sm text-gray-500 mb-4 line-clamp-2">{project.description}</p>

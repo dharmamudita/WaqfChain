@@ -7,33 +7,41 @@
   --font-sans: 'Inter', sans-serif;
   --font-heading: 'Plus Jakarta Sans', sans-serif;
 
-  /* Brand Colors */
-  --color-teal-50: #f0fdfa;
-  --color-teal-100: #ccfbf1;
-  --color-teal-200: #99f6e4;
-  --color-teal-300: #5eead4;
-  --color-teal-400: #2dd4bf;
-  --color-teal-500: #0F9E86;
-  --color-teal-600: #0F6E56;
-  --color-teal-700: #0D5E49;
-  --color-teal-800: #0A4E3C;
-  --color-teal-900: #073E2F;
+  /* Brand Colors - Premium Emerald & Gold */
+  --color-teal-50: #f2fbf9;
+  --color-teal-100: #d4f3eb;
+  --color-teal-200: #a7e4d4;
+  --color-teal-300: #6fcdb7;
+  --color-teal-400: #3db097;
+  --color-teal-500: #22937a;
+  --color-teal-600: #177562;
+  --color-teal-700: #145d4f;
+  --color-teal-800: #134a41;
+  --color-teal-900: #0f3d36;
+  --color-teal-950: #072522;
 
-  --color-amber-50: #fffbeb;
-  --color-amber-100: #fef3c7;
-  --color-amber-200: #fde68a;
-  --color-amber-300: #fcd34d;
-  --color-amber-400: #fbbf24;
-  --color-amber-500: #f59e0b;
-  --color-amber-600: #d97706;
-  --color-amber-700: #854F0B;
-  --color-amber-800: #92400e;
-  --color-amber-900: #78350f;
+  /* Premium Accents (Gold/Amber) */
+  --color-amber-50: #fffdf5;
+  --color-amber-100: #fff9e1;
+  --color-amber-200: #ffefc2;
+  --color-amber-300: #ffe093;
+  --color-amber-400: #ffcc5a;
+  --color-amber-500: #fdb123;
+  --color-amber-600: #e28e10;
+  --color-amber-700: #bd6a10;
+  --color-amber-800: #995214;
+  --color-amber-900: #7e4313;
+
+  /* Neutrals */
+  --color-gray-50: #fafafa;
+  --color-gray-100: #f4f4f5;
+  --color-gray-200: #e4e4e7;
+  --color-gray-900: #18181b;
 }
 
 :root {
-  --background: #ffffff;
-  --foreground: #111827;
+  --background: #fafafa; /* Soft off-white for premium feel */
+  --foreground: #18181b;
 }
 
 body {
@@ -138,7 +146,14 @@ body {
 
 /* Gradient Text */
 .gradient-text {
-  background: linear-gradient(135deg, #0F6E56, #2dd4bf);
+  background: linear-gradient(135deg, #177562, #3db097);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.gradient-text-gold {
+  background: linear-gradient(135deg, #fdb123, #e28e10);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   background-clip: text;
@@ -146,10 +161,34 @@ body {
 
 /* Glass Effect */
 .glass {
-  background: rgba(255, 255, 255, 0.7);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.75);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.04);
+}
+
+.glass-dark {
+  background: rgba(7, 37, 34, 0.8);
+  backdrop-filter: blur(24px);
+  -webkit-backdrop-filter: blur(24px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Premium Shadows */
+.shadow-premium {
+  box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.05), 0 10px 20px -5px rgba(0, 0, 0, 0.02);
+}
+
+.shadow-premium-hover:hover {
+  box-shadow: 0 30px 60px -15px rgba(23, 117, 98, 0.15), 0 15px 30px -10px rgba(23, 117, 98, 0.1);
+  transform: translateY(-4px);
+}
+
+/* Subtle Grid Pattern */
+.bg-grid-pattern {
+  background-image: radial-gradient(rgba(23, 117, 98, 0.1) 1px, transparent 1px);
+  background-size: 24px 24px;
 }
 
 /* Scrollbar */

@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
 import { useAuth } from '@/hooks/useAuth';
 import { signOut } from '@/lib/auth';
@@ -37,15 +38,14 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="sticky top-0 z-40 bg-white/80 backdrop-blur-xl border-b border-gray-100/50">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center justify-between h-16">
+    <>
+      <nav className="fixed top-4 left-0 right-0 z-50 px-4 md:px-8 pointer-events-none">
+        <div className="max-w-7xl mx-auto glass rounded-2xl transition-all duration-300 shadow-sm pointer-events-auto">
+          <div className="flex items-center justify-between h-16 px-4 sm:px-6 lg:px-8">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 group">
-            <div className="w-9 h-9 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 transition-shadow">
-              <svg className="w-5 h-5 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1" />
-              </svg>
+            <div className="w-9 h-9 rounded-xl overflow-hidden shadow-lg shadow-teal-500/20 group-hover:shadow-teal-500/40 transition-shadow">
+              <Image src="/logo.png" alt="WaqfChain" width={36} height={36} className="w-full h-full object-cover" />
             </div>
             <span className="text-xl font-bold font-heading bg-gradient-to-r from-teal-700 to-teal-500 bg-clip-text text-transparent">
               WaqfChain
@@ -58,10 +58,10 @@ export default function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
+                className={`px-4 py-2 rounded-xl text-sm font-semibold transition-all duration-300 relative group overflow-hidden ${
                   pathname === link.href
-                    ? 'text-teal-700 bg-teal-50'
-                    : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
+                    ? 'text-teal-700 bg-teal-50/80 shadow-sm'
+                    : 'text-gray-600 hover:text-teal-700 hover:bg-teal-50/50'
                 }`}
               >
                 {link.label}
@@ -79,10 +79,10 @@ export default function Navbar() {
                   onClick={() => setDropdownOpen(!dropdownOpen)}
                   className="flex items-center gap-2 p-1.5 rounded-xl hover:bg-gray-50 transition-colors"
                 >
-                  <div className="w-8 h-8 bg-gradient-to-br from-teal-400 to-teal-600 rounded-full flex items-center justify-center text-white text-sm font-bold">
+                  <div className="w-8 h-8 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center text-white text-sm font-bold shadow-sm">
                     {userData?.name?.charAt(0)?.toUpperCase() || 'U'}
                   </div>
-                  <span className="text-sm font-medium text-gray-700 max-w-[120px] truncate">
+                  <span className="text-sm font-semibold text-gray-700 max-w-[120px] truncate">
                     {userData?.name || 'Pengguna'}
                   </span>
                   <svg className={`w-4 h-4 text-gray-400 transition-transform ${dropdownOpen ? 'rotate-180' : ''}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
@@ -227,5 +227,7 @@ export default function Navbar() {
         )}
       </div>
     </nav>
-  );
+    {pathname !== '/' && <div className="h-28" />}
+  </>
+);
 }

@@ -20,7 +20,7 @@ import {
 } from 'firebase/firestore';
 import { db } from './firebase';
 import { uploadToCloudinary } from './cloudinary';
-import type { User, Project, Transaction, Chat, Message, DanaUsage, ProjectType } from '@/types';
+import type { User, Project, Transaction, Chat, Message, DanaUsage, ProjectType, ProjectCategory } from '@/types';
 
 // ===== STORAGE =====
 export async function uploadImage(file: File, path: string): Promise<string> {
@@ -308,4 +308,23 @@ export async function processSuccessfulPayment(
   });
 
   await batch.commit();
+}
+
+// ===== PROJECT CATEGORIES =====
+export async function getCategories(): Promise<ProjectCategory[]> {
+  const q = query(collection(db, 'categories'), orderBy('createdAt', 'asc'));
+  const snap = await getDocs(q);
+  return snap.docs.map((d) => ({ id: d.id, ...d.data() } as ProjectCategory));
+}
+
+export async function createCategory(data: Omit<ProjectCategory, 'id' | 'createdAt'>) {
+  const docRef = await addDoc(collection(db, 'categories'), {
+    ...data,
+    createdAt: Timestamp.now(),
+  });
+  return docRef.id;
+}
+
+export async function deleteCategory(id: string) {
+  await deleteDoc(doc(db, 'categories', id));
 }

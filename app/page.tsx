@@ -30,8 +30,9 @@ export default function HomePage() {
       <StatsSection />
 
       {/* Featured Projects */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 md:py-28 relative bg-gray-50/50">
+        <div className="absolute inset-0 bg-grid-pattern opacity-50"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="flex items-end justify-between mb-10">
             <div>
               <h2 className="text-3xl md:text-4xl font-bold font-heading text-gray-900 mb-3">
@@ -63,8 +64,8 @@ export default function HomePage() {
       </section>
 
       {/* How It Works */}
-      <section className="py-16 md:py-20 bg-gradient-to-br from-gray-50 to-teal-50/30">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-20 md:py-28 bg-gradient-to-br from-white to-teal-50/50 relative overflow-hidden">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold font-heading text-gray-900 mb-4">
               Cara Kerja <span className="gradient-text">WaqfChain</span>
@@ -95,9 +96,9 @@ export default function HomePage() {
                 icon: '📜',
               },
             ].map((item, idx) => (
-              <div key={idx} className="relative bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-all duration-300 text-center group hover:-translate-y-1">
-                <div className="text-4xl mb-4">{item.icon}</div>
-                <div className="absolute -top-3 -right-3 w-10 h-10 bg-gradient-to-r from-teal-500 to-teal-600 rounded-full flex items-center justify-center text-white text-sm font-bold shadow-lg">
+              <div key={idx} className="relative glass rounded-3xl p-8 shadow-premium hover:shadow-premium-hover transition-all duration-500 text-center group">
+                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl rotate-12 flex items-center justify-center text-white text-lg font-bold shadow-lg group-hover:rotate-0 transition-all duration-300">
                   {item.step}
                 </div>
                 <h3 className="text-xl font-bold font-heading text-gray-900 mb-3">{item.title}</h3>
@@ -109,9 +110,10 @@ export default function HomePage() {
       </section>
 
       {/* CTA Section */}
-      <section className="py-16 md:py-20">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="relative bg-gradient-to-br from-teal-700 via-teal-800 to-teal-900 rounded-3xl overflow-hidden p-8 md:p-16 text-center text-white">
+      <section className="py-20 md:py-28 bg-white relative">
+        <div className="absolute inset-0 bg-grid-pattern opacity-[0.03]"></div>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+          <div className="relative bg-gradient-to-br from-teal-800 via-teal-900 to-teal-950 rounded-[2.5rem] overflow-hidden p-10 md:p-20 text-center text-white shadow-2xl">
             <div className="absolute inset-0 overflow-hidden">
               <div className="absolute -top-20 -right-20 w-64 h-64 bg-teal-500/20 rounded-full blur-3xl" />
               <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-amber-500/10 rounded-full blur-3xl" />

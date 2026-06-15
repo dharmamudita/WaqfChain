@@ -12,19 +12,19 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ variant = 'primary', size = 'md', loading, fullWidth, children, className = '', disabled, ...props }, ref) => {
     const baseStyles =
-      'inline-flex items-center justify-center font-semibold rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
+      'inline-flex items-center justify-center font-bold rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed';
 
     const variants = {
       primary:
-        'bg-gradient-to-r from-teal-600 to-teal-700 hover:from-teal-700 hover:to-teal-800 text-white shadow-lg shadow-teal-500/25 hover:shadow-teal-500/40 focus:ring-teal-500',
+        'bg-gradient-to-r from-teal-600 to-teal-500 hover:from-teal-700 hover:to-teal-600 text-white shadow-premium hover:shadow-premium-hover focus:ring-teal-500 border border-teal-500/20 hover:scale-[1.02]',
       secondary:
-        'bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-600 hover:to-amber-700 text-white shadow-lg shadow-amber-500/25 hover:shadow-amber-500/40 focus:ring-amber-500',
+        'bg-gradient-to-r from-amber-500 to-amber-400 hover:from-amber-600 hover:to-amber-500 text-white shadow-premium hover:shadow-premium-hover focus:ring-amber-500 border border-amber-400/20 hover:scale-[1.02]',
       outline:
-        'border-2 border-teal-600 text-teal-700 hover:bg-teal-50 focus:ring-teal-500',
+        'border-2 border-teal-600/20 text-teal-700 hover:border-teal-600 hover:bg-teal-50 focus:ring-teal-500 hover:scale-[1.02]',
       ghost:
         'text-gray-600 hover:bg-gray-100 hover:text-gray-900 focus:ring-gray-500',
       danger:
-        'bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white shadow-lg shadow-red-500/25 focus:ring-red-500',
+        'bg-gradient-to-r from-red-500 to-red-400 hover:from-red-600 hover:to-red-500 text-white shadow-premium hover:shadow-premium-hover focus:ring-red-500 hover:scale-[1.02]',
     };
 
     const sizes = {

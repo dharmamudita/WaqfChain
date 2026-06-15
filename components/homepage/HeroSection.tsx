@@ -25,7 +25,7 @@ export default function HeroSection() {
   }, []);
 
   return (
-    <section className="relative overflow-hidden bg-gradient-to-br from-teal-900 via-teal-800 to-teal-700 text-white">
+    <section className="relative overflow-hidden bg-gradient-to-br from-teal-950 via-teal-900 to-teal-800 text-white">
       {/* Decorative Elements */}
       <div className="absolute inset-0 overflow-hidden">
         <div className="absolute -top-40 -right-40 w-80 h-80 bg-teal-500/20 rounded-full blur-3xl animate-float" />
@@ -42,7 +42,7 @@ export default function HeroSection() {
         </svg>
       </div>
 
-      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 md:py-28">
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-20 md:pt-40 md:pb-28">
         <div className="text-center max-w-4xl mx-auto">
           {/* Tag */}
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6 animate-slideDown">
@@ -83,23 +83,23 @@ export default function HeroSection() {
 
           {/* Stats */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-2xl mx-auto animate-slideUp" style={{ animationDelay: '0.3s' }}>
-            <div className="glass rounded-2xl p-5 text-center">
+            <div className="glass-dark rounded-3xl p-6 text-center shadow-xl shadow-black/10">
               <p className="text-2xl md:text-3xl font-bold font-heading text-white mb-1">
                 {formatCurrency(stats.totalCollected)}
               </p>
-              <p className="text-sm text-teal-200">Total Dana Terkumpul</p>
+              <p className="text-sm text-teal-200/80">Total Dana Terkumpul</p>
             </div>
-            <div className="glass rounded-2xl p-5 text-center">
+            <div className="glass-dark rounded-3xl p-6 text-center shadow-xl shadow-black/10">
               <p className="text-2xl md:text-3xl font-bold font-heading text-white mb-1">
                 {stats.totalProjects}+
               </p>
-              <p className="text-sm text-teal-200">Proyek Aktif</p>
+              <p className="text-sm text-teal-200/80">Proyek Aktif</p>
             </div>
-            <div className="glass rounded-2xl p-5 text-center">
+            <div className="glass-dark rounded-3xl p-6 text-center shadow-xl shadow-black/10">
               <p className="text-2xl md:text-3xl font-bold font-heading text-white mb-1">
                 {stats.totalDonors.toLocaleString('id-ID')}+
               </p>
-              <p className="text-sm text-teal-200">Wakif Terdaftar</p>
+              <p className="text-sm text-teal-200/80">Wakif Terdaftar</p>
             </div>
           </div>
         </div>

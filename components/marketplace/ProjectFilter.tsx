@@ -1,24 +1,16 @@
 'use client';
 
-import type { ProjectType } from '@/types';
+import type { ProjectType, ProjectCategory } from '@/types';
 
 interface ProjectFilterProps {
   selectedType: ProjectType | '';
   onTypeChange: (type: ProjectType | '') => void;
   searchQuery: string;
   onSearchChange: (query: string) => void;
+  categories: ProjectCategory[];
 }
 
-const projectTypes: { value: ProjectType | ''; label: string; icon: string }[] = [
-  { value: '', label: 'Semua', icon: '🌍' },
-  { value: 'kebun', label: 'Kebun', icon: '🌱' },
-  { value: 'umkm', label: 'UMKM', icon: '🏪' },
-  { value: 'sumur', label: 'Sumur', icon: '💧' },
-  { value: 'pendidikan', label: 'Pendidikan', icon: '📚' },
-  { value: 'properti', label: 'Properti', icon: '🏠' },
-];
-
-export default function ProjectFilter({ selectedType, onTypeChange, searchQuery, onSearchChange }: ProjectFilterProps) {
+export default function ProjectFilter({ selectedType, onTypeChange, searchQuery, onSearchChange, categories }: ProjectFilterProps) {
   return (
     <div className="space-y-4">
       {/* Search */}
@@ -37,12 +29,23 @@ export default function ProjectFilter({ selectedType, onTypeChange, searchQuery,
 
       {/* Type Filters */}
       <div className="flex flex-wrap gap-2">
-        {projectTypes.map((type) => (
+        <button
+          onClick={() => onTypeChange('')}
+          className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
+            selectedType === ''
+              ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/25'
+              : 'bg-white text-gray-600 border border-gray-200 hover:border-teal-300 hover:text-teal-700'
+          }`}
+        >
+          <span>🌍</span>
+          Semua
+        </button>
+        {categories.map((type) => (
           <button
-            key={type.value}
-            onClick={() => onTypeChange(type.value)}
+            key={type.id}
+            onClick={() => onTypeChange(type.label)}
             className={`inline-flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 ${
-              selectedType === type.value
+              selectedType === type.label
                 ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/25'
                 : 'bg-white text-gray-600 border border-gray-200 hover:border-teal-300 hover:text-teal-700'
             }`}

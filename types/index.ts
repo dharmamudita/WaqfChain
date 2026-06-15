@@ -11,7 +11,7 @@ export interface User {
 }
 
 // ===== PROJECT =====
-export type ProjectType = 'kebun' | 'umkm' | 'sumur' | 'pendidikan' | 'properti';
+export type ProjectType = string;
 export type ProjectStatus = 'aktif' | 'selesai' | 'ditangguhkan';
 
 export interface ProjectLocation {
@@ -73,6 +73,8 @@ export interface Message {
 }
 
 // ===== DANA USAGE =====
+export type DanaUsageType = 'penggunaan' | 'penyerahan';
+
 export interface DanaUsage {
   id: string;
   projectId: string;
@@ -80,7 +82,16 @@ export interface DanaUsage {
   amount: number;
   description: string;
   receiptUrl: string;
+  usageType: DanaUsageType;
   date: Timestamp;
+}
+
+// ===== PROJECT CATEGORY =====
+export interface ProjectCategory {
+  id: string;
+  label: string;
+  icon: string;
+  createdAt: Timestamp;
 }
 
 // ===== MIDTRANS =====
