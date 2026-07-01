@@ -36,6 +36,9 @@ export function useAuth() {
         try {
           const data = await getUser(user.uid);
           setUserData(data);
+          if (data?.role) {
+            document.cookie = `user-role=${data.role}; path=/; max-age=86400`;
+          }
         } catch {
           setUserData(null);
         }
