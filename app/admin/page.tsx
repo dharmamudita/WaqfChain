@@ -7,7 +7,20 @@ import Badge, { getStatusBadge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
 import DanaUsageModal from '@/components/admin/DanaUsageModal';
+import { Gift, Coins, Zap, Leaf, Store, Droplet, Book, Home, FolderOpen, HeartPulse, Moon } from 'lucide-react';
 import type { Project, Transaction, Chat, DanaUsage, ProjectCategory } from '@/types';
+
+const getCategoryIcon = (label: string) => {
+  const l = label.toLowerCase();
+  if (l.includes('kebun')) return <Leaf className="w-6 h-6" />;
+  if (l.includes('umkm') || l.includes('produktif')) return <Store className="w-6 h-6" />;
+  if (l.includes('sumur') || l.includes('air')) return <Droplet className="w-6 h-6" />;
+  if (l.includes('pendidikan')) return <Book className="w-6 h-6" />;
+  if (l.includes('properti')) return <Home className="w-6 h-6" />;
+  if (l.includes('kesehatan')) return <HeartPulse className="w-6 h-6" />;
+  if (l.includes('masjid')) return <Moon className="w-6 h-6" />;
+  return <FolderOpen className="w-6 h-6" />;
+};
 
 function formatCurrency(amount: number) {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
@@ -301,7 +314,7 @@ export default function AdminPage() {
                       <span className={`inline-flex px-2.5 py-1 rounded-lg text-xs font-medium ${
                         usage.usageType === 'penyerahan' ? 'bg-emerald-50 text-emerald-700' : 'bg-amber-50 text-amber-700'
                       }`}>
-                        {usage.usageType === 'penyerahan' ? '🎁 Penyerahan' : '💰 Penggunaan'}
+                        {usage.usageType === 'penyerahan' ? <span className="flex items-center gap-1"><Gift className="w-3.5 h-3.5" /> Penyerahan</span> : <span className="flex items-center gap-1"><Coins className="w-3.5 h-3.5" /> Penggunaan</span>}
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-teal-700 font-medium">{usage.category}</td>
@@ -343,7 +356,7 @@ export default function AdminPage() {
                 toast.error('Gagal: ' + (err.message || 'Kesalahan sistem')); 
               }
             }} className="flex flex-wrap gap-3 mb-6">
-              <input name="catIcon" type="text" placeholder="Ikon (emoji), misal: 🌱" className="w-24 px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-center text-lg" maxLength={4} />
+              <input name="catIcon" type="text" placeholder="Ikon (text), misal: Leaf" className="w-32 px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500 text-center text-sm" />
               <input name="catLabel" type="text" placeholder="Nama kategori, misal: Kebun" className="flex-1 min-w-[200px] px-4 py-2 border border-gray-200 rounded-xl focus:ring-2 focus:ring-teal-500 focus:border-teal-500" />
               <Button type="submit" variant="primary" size="sm">+ Tambah Kategori</Button>
             </form>
@@ -359,11 +372,11 @@ export default function AdminPage() {
                   size="sm" 
                   onClick={async () => {
                     const defaults = [
-                      { label: 'Sumur', icon: '💧' },
-                      { label: 'Pendidikan', icon: '📚' },
-                      { label: 'Kesehatan', icon: '🏥' },
-                      { label: 'Masjid', icon: '🕌' },
-                      { label: 'Produktif', icon: '🏪' },
+                      { label: 'Sumur', icon: 'Droplet' },
+                      { label: 'Pendidikan', icon: 'Book' },
+                      { label: 'Kesehatan', icon: 'HeartPulse' },
+                      { label: 'Masjid', icon: 'Moon' },
+                      { label: 'Produktif', icon: 'Store' },
                     ];
                     try {
                       let added = [];
@@ -378,7 +391,7 @@ export default function AdminPage() {
                     }
                   }}
                 >
-                  ⚡ Tambah Tipe Otomatis
+                  <span className="flex items-center gap-1.5"><Zap className="w-4 h-4" /> Tambah Tipe Otomatis</span>
                 </Button>
               </div>
             )}
@@ -388,7 +401,7 @@ export default function AdminPage() {
               {categories.map((cat) => (
                 <div key={cat.id} className="flex items-center justify-between p-4 bg-gray-50 rounded-xl border border-gray-100 group hover:border-teal-200 transition-colors">
                   <div className="flex items-center gap-3">
-                    <span className="text-2xl">{cat.icon}</span>
+                    <span className="text-teal-600">{getCategoryIcon(cat.label)}</span>
                     <span className="font-medium text-gray-800">{cat.label}</span>
                   </div>
                   <button

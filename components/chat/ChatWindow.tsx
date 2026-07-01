@@ -3,6 +3,7 @@
 import { useRef, useEffect } from 'react';
 import MessageBubble from './MessageBubble';
 import ChatInput from './ChatInput';
+import { MessageCircle } from 'lucide-react';
 import type { Message } from '@/types';
 
 interface ChatWindowProps {
@@ -51,8 +52,8 @@ export default function ChatWindow({ messages, currentUserId, onSendMessage, loa
         ) : messages.length === 0 ? (
           <div className="flex items-center justify-center h-full">
             <div className="text-center bg-gray-50/80 rounded-3xl p-10">
-              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-teal-50 rounded-3xl flex items-center justify-center mx-auto mb-4">
-                <span className="text-3xl">💬</span>
+              <div className="w-16 h-16 bg-gradient-to-br from-teal-100 to-teal-50 rounded-3xl flex items-center justify-center mx-auto mb-4 text-teal-600">
+                <MessageCircle size={32} />
               </div>
               <p className="text-gray-600 text-sm font-semibold mb-1">Belum ada pesan</p>
               <p className="text-gray-400 text-xs">Mulai percakapan dengan admin WaqfChain.</p>

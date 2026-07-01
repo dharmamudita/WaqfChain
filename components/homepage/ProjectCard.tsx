@@ -2,6 +2,7 @@ import Link from 'next/link';
 import type { Project } from '@/types';
 import Badge from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
+import { Leaf, Store, Droplet, Book, Home, MapPin } from 'lucide-react';
 
 function formatCurrency(amount: number): string {
   if (amount >= 1000000000) return `Rp${(amount / 1000000000).toFixed(1)}M`;
@@ -9,12 +10,20 @@ function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 }
 
+const typeIcons: Record<string, React.ReactNode> = {
+  kebun: <Leaf className="w-3 h-3" />,
+  umkm: <Store className="w-3 h-3" />,
+  sumur: <Droplet className="w-3 h-3" />,
+  pendidikan: <Book className="w-3 h-3" />,
+  properti: <Home className="w-3 h-3" />,
+};
+
 const typeLabels: Record<string, string> = {
-  kebun: '🌱 Kebun',
-  umkm: '🏪 UMKM',
-  sumur: '💧 Sumur',
-  pendidikan: '📚 Pendidikan',
-  properti: '🏠 Properti',
+  kebun: 'Kebun',
+  umkm: 'UMKM',
+  sumur: 'Sumur',
+  pendidikan: 'Pendidikan',
+  properti: 'Properti',
 };
 
 const typeColors: Record<string, 'teal' | 'amber' | 'info' | 'success' | 'warning'> = {
@@ -46,7 +55,10 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           <div className="absolute top-4 left-4 z-10">
             <Badge variant={typeColors[project.type] || 'neutral'} size="sm" className="shadow-lg">
-              {typeLabels[project.type] || project.type}
+              <span className="flex items-center gap-1.5">
+                {typeIcons[project.type]}
+                {typeLabels[project.type] || project.type}
+              </span>
             </Badge>
           </div>
           {project.status === 'aktif' && (
@@ -86,8 +98,8 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
               <span className="text-xs text-gray-400">
                 Target: {formatCurrency(project.targetAmount)}
               </span>
-              <span className="text-xs text-gray-400">
-                📍 {project.location?.address?.split(',')[0] || 'Indonesia'}
+              <span className="text-xs text-gray-400 flex items-center gap-1">
+                <MapPin className="w-3 h-3" /> {project.location?.address?.split(',')[0] || 'Indonesia'}
               </span>
             </div>
           </div>

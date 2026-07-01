@@ -7,6 +7,7 @@ import { getUserTransactions } from '@/lib/firestore';
 import Badge, { getStatusBadge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import Card from '@/components/ui/Card';
+import { Bot, Sparkles, Lightbulb, FileText, CheckCircle, Hourglass, XCircle } from 'lucide-react';
 import type { Transaction } from '@/types';
 
 function formatCurrency(amount: number) {
@@ -93,14 +94,14 @@ export default function AkunPage() {
 
         {/* AI Financial Recommendation */}
         <div className="bg-white rounded-3xl p-8 border border-gray-100 shadow-premium relative overflow-hidden group">
-          <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-700">
-            <span className="text-9xl">🤖</span>
+          <div className="absolute top-0 right-0 p-12 pointer-events-none group-hover:scale-110 transition-transform duration-700">
+            <Bot className="w-48 h-48 text-amber-500/10" />
           </div>
           
           <div className="relative z-10">
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20 text-2xl">
-                🤖
+              <div className="w-12 h-12 bg-gradient-to-br from-amber-400 to-amber-600 rounded-2xl flex items-center justify-center shadow-lg shadow-amber-500/20">
+                <Bot className="w-6 h-6 text-white" />
               </div>
               <div>
                 <h3 className="text-xl font-bold font-heading text-gray-900">Rekomendasi Wakaf Cerdas</h3>
@@ -119,16 +120,16 @@ export default function AkunPage() {
                   className="w-full pl-14 pr-5 py-4 rounded-2xl border border-gray-200 bg-gray-50/50 focus:outline-none focus:ring-2 focus:ring-amber-500/20 focus:border-amber-500 focus:bg-white transition-all text-gray-900 font-medium"
                 />
               </div>
-              <Button variant="primary" onClick={() => setShowRec(true)} disabled={!income} className="!py-4 !px-8 !rounded-2xl !bg-gradient-to-r !from-gray-900 !to-gray-800 hover:!from-black hover:!to-gray-900 shadow-xl shadow-gray-900/20">
-                ✨ Hitung
+              <Button variant="primary" onClick={() => setShowRec(true)} disabled={!income} className="!py-4 !px-8 !rounded-2xl !bg-gradient-to-r !from-gray-900 !to-gray-800 hover:!from-black hover:!to-gray-900 shadow-xl shadow-gray-900/20 flex items-center gap-2">
+                <Sparkles className="w-5 h-5 text-amber-400" /> Hitung
               </Button>
             </div>
 
             {showRec && incomeNum > 0 && (
               <div className="mt-6 bg-gradient-to-br from-amber-50 to-amber-100/50 rounded-2xl p-6 border border-amber-200/50 shadow-inner animate-slideUp">
                 <div className="flex items-start gap-4">
-                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm text-xl flex-shrink-0">
-                    💡
+                  <div className="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm flex-shrink-0">
+                    <Lightbulb className="w-6 h-6 text-amber-500" />
                   </div>
                   <div>
                     <p className="text-base text-gray-800 leading-relaxed mb-2">
@@ -170,7 +171,7 @@ export default function AkunPage() {
             </div>
           ) : transactions.length === 0 ? (
             <div className="p-16 text-center bg-gray-50/50 m-6 rounded-2xl border border-dashed border-gray-200">
-              <div className="text-5xl mb-4 opacity-50">📜</div>
+              <div className="w-16 h-16 mx-auto mb-4 text-gray-300"><FileText className="w-full h-full" /></div>
               <h4 className="text-gray-900 font-bold mb-1">Belum Ada Transaksi</h4>
               <p className="text-gray-500 text-sm mb-5">Anda belum pernah melakukan donasi wakaf.</p>
               <Link href="/marketplace">
@@ -184,8 +185,8 @@ export default function AkunPage() {
                 return (
                   <div key={idx} className="flex flex-col sm:flex-row sm:items-center justify-between p-6 hover:bg-teal-50/30 transition-colors gap-4">
                     <div className="flex-1 min-w-0 flex items-center gap-4">
-                      <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center text-xl flex-shrink-0">
-                        {tx.status === 'success' ? '✅' : tx.status === 'pending' ? '⏳' : '❌'}
+                      <div className="w-12 h-12 bg-gray-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                        {tx.status === 'success' ? <CheckCircle className="w-6 h-6 text-emerald-500" /> : tx.status === 'pending' ? <Hourglass className="w-6 h-6 text-amber-500" /> : <XCircle className="w-6 h-6 text-red-500" />}
                       </div>
                       <div>
                         <p className="text-base font-bold text-gray-900 truncate">{tx.projectTitle}</p>

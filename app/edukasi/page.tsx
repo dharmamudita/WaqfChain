@@ -2,22 +2,23 @@
 
 import Link from 'next/link';
 import Button from '@/components/ui/Button';
+import { Book, Scale, Sprout, Diamond, Link as LinkIcon, BookOpen } from 'lucide-react';
 
 const sections = [
   {
-    icon: '📖',
+    icon: <Book className="w-8 h-8 text-teal-600" />,
     title: 'Apa Itu Wakaf?',
     content:
       'Wakaf adalah perbuatan ibadah dengan menyerahkan sebagian harta yang dimiliki untuk dimanfaatkan selamanya atau dalam jangka waktu tertentu guna keperluan ibadah dan kesejahteraan umum. Dalam Islam, wakaf merupakan salah satu bentuk sedekah jariyah yang pahalanya terus mengalir meskipun pewakaf telah meninggal dunia.',
   },
   {
-    icon: '🏛️',
+    icon: <Scale className="w-8 h-8 text-teal-600" />,
     title: 'Dasar Hukum Wakaf',
     content:
       'Wakaf diatur dalam UU No. 41 Tahun 2004 tentang Wakaf dan PP No. 42 Tahun 2006. Dalam Al-Quran, dasar wakaf terdapat pada Surah Ali Imran ayat 92: "Kamu sekali-kali tidak sampai kepada kebajikan (yang sempurna), sebelum kamu menafkahkan sebahagian harta yang kamu cintai." Hadis Nabi SAW juga menyebutkan: "Jika anak Adam meninggal dunia, maka terputuslah amalnya kecuali tiga perkara: sedekah jariyah, ilmu yang bermanfaat, dan anak shalih yang mendoakannya."',
   },
   {
-    icon: '🌿',
+    icon: <Sprout className="w-8 h-8 text-teal-600" />,
     title: 'Jenis-Jenis Wakaf',
     items: [
       { name: 'Wakaf Tunai (Uang)', desc: 'Mewakafkan sejumlah uang untuk dikelola dan hasilnya digunakan untuk kepentingan umum.' },
@@ -28,7 +29,7 @@ const sections = [
     ],
   },
   {
-    icon: '💎',
+    icon: <Diamond className="w-8 h-8 text-teal-600" />,
     title: 'Manfaat Wakaf',
     items: [
       { name: 'Pahala Abadi', desc: 'Wakaf termasuk sedekah jariyah yang pahalanya terus mengalir.' },
@@ -38,7 +39,7 @@ const sections = [
     ],
   },
   {
-    icon: '🔗',
+    icon: <LinkIcon className="w-8 h-8 text-teal-600" />,
     title: 'Kenapa WaqfChain?',
     items: [
       { name: 'Transparan', desc: 'Setiap penggunaan dana tercatat dan dapat dipantau secara real-time.' },
@@ -56,7 +57,7 @@ export default function EdukasiPage() {
       <div className="bg-gradient-to-r from-teal-800 to-teal-700 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-sm rounded-full border border-white/20 mb-6">
-            <span className="text-sm font-medium text-teal-100">📚 Pusat Edukasi</span>
+            <span className="flex items-center gap-1.5 text-sm font-medium text-teal-100"><BookOpen className="w-4 h-4" /> Pusat Edukasi</span>
           </div>
           <h1 className="text-3xl md:text-5xl font-extrabold font-heading mb-4">
             Memahami <span className="text-amber-300">Wakaf</span> Lebih Dalam
@@ -72,7 +73,7 @@ export default function EdukasiPage() {
         {sections.map((section, idx) => (
           <div key={idx} className="bg-white rounded-2xl p-8 border border-gray-100 shadow-sm hover:shadow-md transition-shadow">
             <div className="flex items-center gap-3 mb-4">
-              <span className="text-3xl">{section.icon}</span>
+              <div>{section.icon}</div>
               <h2 className="text-xl md:text-2xl font-bold font-heading text-gray-900">{section.title}</h2>
             </div>
             {section.content && (

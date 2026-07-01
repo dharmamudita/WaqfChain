@@ -7,13 +7,18 @@ import Badge from '@/components/ui/Badge';
 import type { MapMarker } from '@/components/ui/MapViewer';
 import type { Project } from '@/types';
 import dynamic from 'next/dynamic';
+import { Leaf, Store, Droplet, Book, Home, MapPin } from 'lucide-react';
 
 const MapViewer = dynamic(() => import('@/components/ui/MapViewer'), { ssr: false });
 import { Timestamp } from 'firebase/firestore';
 
 
-const typeIcons: Record<string, string> = {
-  kebun: '🌱', umkm: '🏪', sumur: '💧', pendidikan: '📚', properti: '🏠',
+const typeIcons: Record<string, React.ReactNode> = {
+  kebun: <Leaf className="w-4 h-4" />, 
+  umkm: <Store className="w-4 h-4" />, 
+  sumur: <Droplet className="w-4 h-4" />, 
+  pendidikan: <Book className="w-4 h-4" />, 
+  properti: <Home className="w-4 h-4" />,
 };
 
 function formatCurrency(amount: number) {
@@ -80,7 +85,7 @@ export default function PetaPage() {
                 <div className="space-y-1">
                   {Object.entries(typeIcons).map(([type, icon]) => (
                     <div key={type} className="flex items-center gap-1.5 text-xs text-gray-600">
-                      <span>{icon}</span>
+                      <span className="text-teal-600">{icon}</span>
                       <span className="capitalize">{type}</span>
                     </div>
                   ))}
@@ -112,10 +117,10 @@ export default function PetaPage() {
                     }`}
                   >
                     <div className="flex items-start gap-3">
-                      <span className="text-xl">{typeIcons[p.type]}</span>
+                      <span className="text-teal-600 mt-0.5">{typeIcons[p.type]}</span>
                       <div className="flex-1 min-w-0">
                         <p className="text-sm font-bold text-gray-900 truncate">{p.title}</p>
-                        <p className="text-xs text-gray-500">📍 {p.location.address}</p>
+                        <p className="text-xs text-gray-500 flex items-center gap-1"><MapPin className="w-3 h-3" /> {p.location.address}</p>
                         <div className="flex items-center gap-2 mt-2">
                           <div className="flex-1 h-1.5 bg-gray-100 rounded-full overflow-hidden">
                             <div className="h-full bg-gradient-to-r from-teal-500 to-teal-400 rounded-full" style={{ width: `${p.progressPercent}%` }} />

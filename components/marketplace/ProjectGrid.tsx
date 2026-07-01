@@ -1,5 +1,6 @@
 import type { Project } from '@/types';
 import ProjectCard from '@/components/homepage/ProjectCard';
+import { Search } from 'lucide-react';
 
 interface ProjectGridProps {
   projects: Project[];
@@ -28,8 +29,10 @@ export default function ProjectGrid({ projects, loading }: ProjectGridProps) {
 
   if (projects.length === 0) {
     return (
-      <div className="text-center py-20 bg-white rounded-3xl shadow-premium border border-gray-100">
-        <div className="text-7xl mb-5">🔍</div>
+      <div className="text-center py-20 bg-white rounded-3xl shadow-premium border border-gray-100 flex flex-col items-center">
+        <div className="w-24 h-24 bg-teal-50 text-teal-300 rounded-full flex items-center justify-center mb-5">
+          <Search size={48} />
+        </div>
         <h3 className="text-xl font-bold text-gray-900 font-heading mb-2">
           Tidak Ada Proyek Ditemukan
         </h3>

@@ -6,6 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
+import { Heart, Hourglass, AlertTriangle } from 'lucide-react';
 import type { Project } from '@/types';
 
 const presetAmounts = [
@@ -85,14 +86,14 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
             router.push(`/akun/token/${data.txId}`);
           },
           onPending: () => {
-            toast('Pembayaran menunggu konfirmasi', { icon: '⏳' });
+            toast('Pembayaran menunggu konfirmasi', { icon: <Hourglass className="w-4 h-4 text-amber-500" /> });
             onClose();
           },
           onError: () => {
             toast.error('Pembayaran gagal');
           },
           onClose: () => {
-            toast('Pembayaran dibatalkan', { icon: '⚠️' });
+            toast('Pembayaran dibatalkan', { icon: <AlertTriangle className="w-4 h-4 text-red-500" /> });
           },
         });
       } else {
@@ -181,7 +182,7 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
           disabled={selectedAmount < 10000}
           onClick={handleDonate}
         >
-          {loading ? 'Memproses...' : '💚 Wakaf Sekarang'}
+          {loading ? 'Memproses...' : <><Heart className="w-5 h-5 fill-current" /> Wakaf Sekarang</>}
         </Button>
 
         <p className="text-center text-xs text-gray-400">

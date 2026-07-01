@@ -10,6 +10,7 @@ import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import { Textarea } from '@/components/ui/Input';
 import toast from 'react-hot-toast';
+import { CheckCircle, Rocket } from 'lucide-react';
 import type { ProjectType, ProjectCategory } from '@/types';
 
 interface ProjectFormData {
@@ -240,8 +241,8 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
 
       {/* Actions */}
       <div className="flex gap-3 pt-2">
-        <Button type="submit" variant="primary" size="lg" loading={loading} className="!px-8">
-          {isEdit ? '✅ Simpan Perubahan' : '🚀 Tambah Proyek'}
+        <Button type="submit" variant="primary" size="lg" loading={loading} className="!px-8 flex items-center gap-2">
+          {isEdit ? <><CheckCircle className="w-5 h-5" /> Simpan Perubahan</> : <><Rocket className="w-5 h-5" /> Tambah Proyek</>}
         </Button>
         <Button type="button" variant="ghost" size="lg" onClick={() => router.back()}>
           Batal

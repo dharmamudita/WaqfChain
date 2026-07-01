@@ -2,6 +2,7 @@
 
 import { forwardRef } from 'react';
 import QRCodeDisplay from './QRCodeDisplay';
+import { Star } from 'lucide-react';
 import type { Transaction } from '@/types';
 
 function formatCurrency(amount: number) {
@@ -55,7 +56,7 @@ const CertificateCard = forwardRef<HTMLDivElement, CertificateCardProps>(
           {/* Divider */}
           <div className="flex items-center gap-4">
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-            <span className="text-amber-500">✦</span>
+            <span className="text-amber-500"><Star className="w-4 h-4 fill-current" /></span>
             <div className="flex-1 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
           </div>
 

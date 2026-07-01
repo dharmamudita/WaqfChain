@@ -9,6 +9,7 @@ import Button from '@/components/ui/Button';
 import { getProjects } from '@/lib/firestore';
 import type { Project } from '@/types';
 import { Timestamp } from 'firebase/firestore';
+import { Search, Coins, FileText } from 'lucide-react';
 
 
 export default function HomePage() {
@@ -81,23 +82,23 @@ export default function HomePage() {
                 step: '01',
                 title: 'Pilih Proyek',
                 desc: 'Telusuri proyek wakaf yang sesuai dengan minat Anda di marketplace kami.',
-                icon: '🔍',
+                icon: <Search className="w-12 h-12" />,
               },
               {
                 step: '02',
                 title: 'Tentukan Nominal',
                 desc: 'Mulai dari Rp10.000, tentukan nominal wakaf sesuai kemampuan Anda.',
-                icon: '💰',
+                icon: <Coins className="w-12 h-12" />,
               },
               {
                 step: '03',
                 title: 'Dapatkan Sertifikat',
                 desc: 'Terima sertifikat digital dengan QR code sebagai bukti wakaf Anda.',
-                icon: '📜',
+                icon: <FileText className="w-12 h-12" />,
               },
             ].map((item, idx) => (
               <div key={idx} className="relative glass rounded-3xl p-8 shadow-premium hover:shadow-premium-hover transition-all duration-500 text-center group">
-                <div className="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
+                <div className="mb-6 flex justify-center text-teal-500 group-hover:scale-110 transition-transform duration-300">{item.icon}</div>
                 <div className="absolute -top-4 -right-4 w-12 h-12 bg-gradient-to-br from-teal-500 to-teal-700 rounded-2xl rotate-12 flex items-center justify-center text-white text-lg font-bold shadow-lg group-hover:rotate-0 transition-all duration-300">
                   {item.step}
                 </div>

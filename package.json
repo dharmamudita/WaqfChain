@@ -15,6 +15,7 @@
     "firebase": "^12.13.0",
     "html2canvas": "^1.4.1",
     "leaflet": "^1.9.4",
+    "lucide-react": "^1.23.0",
     "midtrans-client": "^1.4.3",
     "next": "16.2.6",
     "next-cloudinary": "^6.17.5",

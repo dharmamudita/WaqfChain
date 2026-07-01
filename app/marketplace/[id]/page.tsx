@@ -8,16 +8,25 @@ import Badge, { getStatusBadge } from '@/components/ui/Badge';
 import Button from '@/components/ui/Button';
 import type { Project, Transaction } from '@/types';
 import dynamic from 'next/dynamic';
+import { Timestamp } from 'firebase/firestore';
+import { Leaf, Store, Droplet, Book, Home, MapPin, Heart, MessageCircle, Share2, Link as LinkIcon } from 'lucide-react';
 
 const MapViewer = dynamic(() => import('@/components/ui/MapViewer'), { ssr: false });
-import { Timestamp } from 'firebase/firestore';
 
 function formatCurrency(amount: number): string {
   return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
 }
 
 const typeLabels: Record<string, string> = {
-  kebun: '🌱 Kebun', umkm: '🏪 UMKM', sumur: '💧 Sumur', pendidikan: '📚 Pendidikan', properti: '🏠 Properti',
+  kebun: 'Kebun', umkm: 'UMKM', sumur: 'Sumur', pendidikan: 'Pendidikan', properti: 'Properti',
+};
+
+const typeIcons: Record<string, React.ReactNode> = {
+  kebun: <Leaf className="w-3 h-3" />,
+  umkm: <Store className="w-3 h-3" />,
+  sumur: <Droplet className="w-3 h-3" />,
+  pendidikan: <Book className="w-3 h-3" />,
+  properti: <Home className="w-3 h-3" />,
 };
 
 
@@ -110,7 +119,9 @@ export default function ProjectDetailPage() {
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute top-5 left-5 flex gap-2">
-                  <Badge variant={getStatusBadge(project.type).variant || 'teal'} className="shadow-lg backdrop-blur-sm">{typeLabels[project.type]}</Badge>
+                  <Badge variant={getStatusBadge(project.type).variant || 'teal'} className="shadow-lg backdrop-blur-sm">
+                    <span className="flex items-center gap-1.5">{typeIcons[project.type]} {typeLabels[project.type] || project.type}</span>
+                  </Badge>
                   <Badge variant={statusBadge.variant} className="shadow-lg backdrop-blur-sm">{statusBadge.label}</Badge>
                 </div>
                 {/* Image counter */}
@@ -144,7 +155,7 @@ export default function ProjectDetailPage() {
               </h1>
               <div className="flex items-center gap-3 mb-6">
                 <span className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-gray-50 rounded-full text-sm text-gray-500">
-                  📍 {project.location.address}
+                  <MapPin className="w-4 h-4" /> {project.location.address}
                 </span>
               </div>
               <div className="prose prose-gray max-w-none">
@@ -213,7 +224,7 @@ export default function ProjectDetailPage() {
                 </div>
               ) : (
                 <div className="text-center py-12 bg-gray-50/50 rounded-2xl">
-                  <div className="text-4xl mb-3">💚</div>
+                  <Heart className="w-12 h-12 mx-auto mb-3 text-teal-300" />
                   <p className="text-gray-400 text-sm">Belum ada donatur. Jadilah yang pertama!</p>
                 </div>
               )}
@@ -250,7 +261,7 @@ export default function ProjectDetailPage() {
                 </div>
 
                 <Button variant="primary" size="lg" fullWidth onClick={() => setShowDonateModal(true)} className="!text-base !py-4 !shadow-xl !shadow-teal-500/20">
-                  💚 Wakaf Sekarang
+                  <Heart className="w-5 h-5 fill-current" /> Wakaf Sekarang
                 </Button>
 
                 <p className="text-center text-xs text-gray-400 mt-4">
@@ -266,21 +277,21 @@ export default function ProjectDetailPage() {
                     onClick={() => handleShare('whatsapp')}
                     className="flex items-center gap-3 w-full py-3 px-4 bg-emerald-50 text-emerald-700 rounded-2xl text-sm font-semibold hover:bg-emerald-100 transition-all"
                   >
-                    <span className="text-lg">💬</span>
+                    <MessageCircle className="w-5 h-5" />
                     WhatsApp
                   </button>
                   <button
                     onClick={() => handleShare('facebook')}
                     className="flex items-center gap-3 w-full py-3 px-4 bg-blue-50 text-blue-700 rounded-2xl text-sm font-semibold hover:bg-blue-100 transition-all"
                   >
-                    <span className="text-lg">📘</span>
+                    <Share2 className="w-5 h-5" />
                     Facebook
                   </button>
                   <button
                     onClick={() => handleShare('copy')}
                     className="flex items-center gap-3 w-full py-3 px-4 bg-gray-50 text-gray-700 rounded-2xl text-sm font-semibold hover:bg-gray-100 transition-all"
                   >
-                    <span className="text-lg">🔗</span>
+                    <LinkIcon className="w-5 h-5" />
                     Salin Link
                   </button>
                 </div>

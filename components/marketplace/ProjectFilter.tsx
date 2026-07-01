@@ -1,6 +1,17 @@
 'use client';
 
 import type { ProjectType, ProjectCategory } from '@/types';
+import { Globe, Leaf, Store, Droplet, Book, Home, FolderOpen } from 'lucide-react';
+
+const getCategoryIcon = (label: string) => {
+  const l = label.toLowerCase();
+  if (l.includes('kebun')) return <Leaf className="w-4 h-4" />;
+  if (l.includes('umkm')) return <Store className="w-4 h-4" />;
+  if (l.includes('sumur') || l.includes('air')) return <Droplet className="w-4 h-4" />;
+  if (l.includes('pendidikan')) return <Book className="w-4 h-4" />;
+  if (l.includes('properti')) return <Home className="w-4 h-4" />;
+  return <FolderOpen className="w-4 h-4" />;
+};
 
 interface ProjectFilterProps {
   selectedType: ProjectType | '';
@@ -37,7 +48,7 @@ export default function ProjectFilter({ selectedType, onTypeChange, searchQuery,
               : 'bg-white text-gray-600 border border-gray-200 hover:border-teal-300 hover:text-teal-700'
           }`}
         >
-          <span>🌍</span>
+          <Globe className="w-4 h-4" />
           Semua
         </button>
         {categories.map((type) => (
@@ -50,7 +61,7 @@ export default function ProjectFilter({ selectedType, onTypeChange, searchQuery,
                 : 'bg-white text-gray-600 border border-gray-200 hover:border-teal-300 hover:text-teal-700'
             }`}
           >
-            <span>{type.icon}</span>
+            {getCategoryIcon(type.label)}
             {type.label}
           </button>
         ))}

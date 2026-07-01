@@ -5,6 +5,7 @@ import { getAllChats } from '@/lib/firestore';
 import { useChat } from '@/hooks/useChat';
 import { useAuth } from '@/hooks/useAuth';
 import ChatWindow from '@/components/chat/ChatWindow';
+import { Mailbox, MessageCircle } from 'lucide-react';
 import type { Chat } from '@/types';
 
 export default function ChatInbox() {
@@ -57,7 +58,7 @@ export default function ChatInbox() {
             </div>
           ) : chats.length === 0 ? (
             <div className="p-10 text-center flex flex-col items-center justify-center h-full">
-              <div className="w-16 h-16 bg-gray-50 rounded-2xl flex items-center justify-center text-2xl mb-3">📭</div>
+              <div className="w-16 h-16 bg-gray-50 text-gray-400 rounded-2xl flex items-center justify-center mb-3"><Mailbox size={32} /></div>
               <p className="text-gray-500 font-medium text-sm">Inbox Kosong</p>
               <p className="text-gray-400 text-xs mt-1">Belum ada pesan dari pengguna.</p>
             </div>
@@ -110,8 +111,8 @@ export default function ChatInbox() {
         ) : (
           <div className="h-full flex items-center justify-center bg-white rounded-3xl border border-gray-100 shadow-premium">
             <div className="text-center bg-gray-50/50 p-12 rounded-3xl border border-dashed border-gray-200">
-              <div className="w-20 h-20 bg-gradient-to-br from-teal-50 to-emerald-50 rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-sm">
-                <span className="text-4xl opacity-80">💬</span>
+              <div className="w-20 h-20 bg-gradient-to-br from-teal-50 to-emerald-50 rounded-3xl flex items-center justify-center mx-auto mb-5 shadow-sm text-teal-600">
+                <MessageCircle size={40} className="opacity-80" />
               </div>
               <h3 className="text-xl font-bold font-heading text-gray-900 mb-2">Pilih Percakapan</h3>
               <p className="text-gray-500 text-sm max-w-[200px] mx-auto">Klik salah satu pengguna di panel kiri untuk mulai membalas pesan.</p>

@@ -8,6 +8,7 @@ import { signUp } from '@/lib/auth';
 import Button from '@/components/ui/Button';
 import Input from '@/components/ui/Input';
 import toast from 'react-hot-toast';
+import { Rocket } from 'lucide-react';
 
 export default function RegisterPage() {
   const [name, setName] = useState('');
@@ -90,7 +91,7 @@ export default function RegisterPage() {
             />
             <div className="pt-2">
               <Button type="submit" variant="primary" size="lg" fullWidth loading={loading} className="!py-4 !text-base !shadow-xl !shadow-teal-500/25">
-                🚀 Daftar Sekarang
+                <span className="flex items-center gap-2 justify-center"><Rocket className="w-5 h-5" /> Daftar Sekarang</span>
               </Button>
             </div>
           </form>

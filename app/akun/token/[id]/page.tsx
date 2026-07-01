@@ -10,6 +10,7 @@ import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
 import type { Transaction } from '@/types';
 import { Timestamp } from 'firebase/firestore';
+import { PartyPopper, Download } from 'lucide-react';
 
 
 export default function TokenPage() {
@@ -70,7 +71,7 @@ export default function TokenPage() {
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
             </svg>
           </div>
-          <h1 className="text-2xl font-extrabold font-heading text-gray-900">Wakaf Berhasil! 🎉</h1>
+          <h1 className="text-2xl font-extrabold font-heading text-gray-900">Wakaf Berhasil! <PartyPopper className="inline-block w-6 h-6 text-amber-500 mb-1 ml-1" /></h1>
           <p className="text-gray-500 mt-2">Terima kasih atas kontribusi Anda. Berikut sertifikat digital Anda.</p>
         </div>
 
@@ -86,7 +87,7 @@ export default function TokenPage() {
         {/* Download Button */}
         <div className="mt-6 text-center space-y-3 animate-slideUp" style={{ animationDelay: '0.4s' }}>
           <Button variant="primary" size="lg" onClick={handleDownload} loading={downloading}>
-            📥 Download Sertifikat
+            <span className="flex items-center gap-2"><Download className="w-5 h-5" /> Download Sertifikat</span>
           </Button>
           <p className="text-xs text-gray-400">
             Sertifikat akan diunduh sebagai gambar PNG
