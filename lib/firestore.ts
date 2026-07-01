@@ -149,12 +149,13 @@ export async function getAllTransactions(): Promise<Transaction[]> {
 export async function getProjectDonors(projectId: string): Promise<Transaction[]> {
   const q = query(
     collection(db, 'transactions'),
-    where('projectId', '==', projectId),
-    where('status', '==', 'success'),
-    orderBy('createdAt', 'desc')
+    where('projectId', '==', projectId)
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => d.data() as Transaction);
+  let txs = snap.docs.map((d) => d.data() as Transaction);
+  txs = txs.filter(tx => tx.status === 'success');
+  txs.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+  return txs;
 }
 
 // ===== MANUAL TRANSACTIONS =====
