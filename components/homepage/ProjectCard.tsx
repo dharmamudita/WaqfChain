@@ -44,13 +44,13 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
 
   return (
     <Link href={`/marketplace/${project.id}`}>
-      <div className={`group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-premium hover:shadow-premium-hover transition-all duration-500 hover:-translate-y-2 relative ${featured ? 'md:col-span-1' : ''}`}>
+      <div className={`group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-premium relative ${featured ? 'md:col-span-1' : ''}`}>
         {/* Image */}
         <div className="relative h-48 overflow-hidden">
           <img
             src={imageUrl}
             alt={project.title}
-            className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+            className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
           <div className="absolute top-4 left-4 z-10">
@@ -73,7 +73,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
 
         {/* Content */}
         <div className="p-6">
-          <h3 className="font-bold text-lg text-gray-900 font-heading mb-2 line-clamp-2 group-hover:text-teal-700 transition-colors">
+          <h3 className="font-bold text-lg text-gray-900 font-heading mb-2 line-clamp-2">
             {project.title}
           </h3>
           <p className="text-sm text-gray-500 mb-4 line-clamp-2">{project.description}</p>
@@ -105,7 +105,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
           </div>
 
           {/* CTA */}
-          <Button variant="primary" size="sm" fullWidth className="group-hover:shadow-lg">
+          <Button variant="primary" size="sm" fullWidth>
             Wakaf Sekarang
           </Button>
         </div>
