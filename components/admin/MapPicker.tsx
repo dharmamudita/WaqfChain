@@ -107,22 +107,29 @@ export default function MapPicker({ defaultLocation, onChange }: MapPickerProps)
       
       {/* Search Bar Overlay */}
       <div className="absolute top-4 left-4 right-4 z-[1000] flex flex-col gap-1 max-w-sm">
-        <form onSubmit={handleSearch} className="flex bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
+        <div className="flex bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
           <input 
             type="text" 
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') {
+                e.preventDefault();
+                handleSearch(e as unknown as React.FormEvent);
+              }
+            }}
             placeholder="Cari kota, kecamatan, atau alamat..." 
             className="flex-1 px-4 py-3 text-sm focus:outline-none text-gray-900 bg-white"
           />
           <button 
-            type="submit" 
+            type="button" 
+            onClick={handleSearch}
             disabled={isSearching}
             className="px-4 py-3 bg-teal-50 text-teal-600 hover:bg-teal-100 transition-colors disabled:opacity-50"
           >
             <Search className="w-4 h-4" />
           </button>
-        </form>
+        </div>
         
         {/* Search Results */}
         {searchResults.length > 0 && (
