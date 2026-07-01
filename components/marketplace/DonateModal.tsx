@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-import { Heart, Hourglass, AlertTriangle, QrCode } from 'lucide-react';
+import { Heart, Hourglass, AlertTriangle, QrCode, Trophy, HeartHandshake } from 'lucide-react';
 import type { Project } from '@/types';
 import { QRCodeSVG } from 'qrcode.react';
 import { Copy } from 'lucide-react';
@@ -121,7 +121,9 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
     <Modal isOpen={isOpen} onClose={onClose} title="Dukung Tim WaqfChain" size="md">
       <div className="flex flex-col items-center justify-center space-y-6 pb-4 px-2">
         <div className="text-center">
-          <h4 className="font-bold text-gray-900 mb-1 text-lg">Bantu Kami Juara! 🏆</h4>
+          <h4 className="font-bold text-gray-900 mb-1 text-lg flex items-center justify-center gap-2">
+            Bantu Kami Juara! <Trophy className="w-5 h-5 text-amber-500" />
+          </h4>
           <p className="text-sm text-gray-500 px-4">Dukungan seikhlasnya dari Anda sangat berarti untuk memacu semangat tim kami dalam perlombaan ini.</p>
         </div>
         
@@ -133,7 +135,7 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
             </div>
           </div>
           <p className="text-sm text-gray-500 text-center font-medium px-2">
-            Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! 🙏
+            Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! <HeartHandshake className="w-4 h-4 inline-block text-teal-600 ml-1 mb-0.5" />
           </p>
         </div>
 
