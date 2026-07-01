@@ -129,13 +129,33 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
           {/* SeaBank */}
           <div className="bg-white p-5 rounded-2xl shadow-sm border border-orange-100 flex items-center justify-between">
             <div>
-              <p className="text-sm text-orange-600 font-extrabold mb-1 tracking-wider uppercase">SeaBank</p>
+              <div className="flex items-center gap-2 mb-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/f9/SeaBank_logo.png/320px-SeaBank_logo.png" alt="SeaBank" className="h-5 object-contain" />
+              </div>
               <p className="text-xl font-bold text-gray-900 font-heading tracking-wide">9012 3456 7890</p>
               <p className="text-sm text-gray-500 mt-1">a/n WaqfChain (Silakan ubah no ini)</p>
             </div>
             <button 
               onClick={() => { navigator.clipboard.writeText('901234567890'); toast.success('Nomor rekening SeaBank disalin'); }}
               className="p-3 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100 transition-colors"
+              title="Salin Nomor"
+            >
+              <Copy className="w-6 h-6" />
+            </button>
+          </div>
+
+          {/* DANA */}
+          <div className="bg-white p-5 rounded-2xl shadow-sm border border-blue-100 flex items-center justify-between">
+            <div>
+              <div className="flex items-center gap-2 mb-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" className="h-5 object-contain" />
+              </div>
+              <p className="text-xl font-bold text-gray-900 font-heading tracking-wide">0812 3456 7890</p>
+              <p className="text-sm text-gray-500 mt-1">a/n WaqfChain (Silakan ubah no ini)</p>
+            </div>
+            <button 
+              onClick={() => { navigator.clipboard.writeText('081234567890'); toast.success('Nomor DANA disalin'); }}
+              className="p-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-colors"
               title="Salin Nomor"
             >
               <Copy className="w-6 h-6" />
