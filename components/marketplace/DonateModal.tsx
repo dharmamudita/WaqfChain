@@ -118,22 +118,22 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
   const remaining = project.targetAmount - project.collectedAmount;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Transfer Pembayaran" size="md">
+    <Modal isOpen={isOpen} onClose={onClose} title="Dukung Tim WaqfChain" size="md">
       <div className="flex flex-col items-center justify-center space-y-6 pb-4 px-2">
         <div className="text-center">
-          <h4 className="font-bold text-gray-900 mb-1">Wakaf untuk {project.title}</h4>
-          <p className="text-sm text-gray-500">Scan QR Code di bawah ini</p>
+          <h4 className="font-bold text-gray-900 mb-1 text-lg">Bantu Kami Juara! 🏆</h4>
+          <p className="text-sm text-gray-500 px-4">Dukungan seikhlasnya dari Anda sangat berarti untuk memacu semangat tim kami dalam perlombaan ini.</p>
         </div>
         
         <div className="w-full flex flex-col items-center justify-center space-y-4">
           <div className="bg-white p-4 rounded-3xl shadow-premium border border-gray-100 flex flex-col items-center gap-3 w-full max-w-[280px]">
             <img src="/qris-payment.jpeg" alt="QRIS Payment" className="w-full h-auto rounded-xl object-contain shadow-sm" />
             <div className="flex items-center justify-center gap-2 text-teal-700 font-bold text-sm bg-teal-50 px-4 py-2 rounded-xl w-full border border-teal-100">
-              <QrCode className="w-4 h-4" /> Scan untuk Wakaf
+              <QrCode className="w-4 h-4" /> Scan untuk Dukung
             </div>
           </div>
-          <p className="text-sm text-gray-500 text-center font-medium">
-            Bisa di-scan menggunakan aplikasi m-Banking atau E-Wallet apa saja.
+          <p className="text-sm text-gray-500 text-center font-medium px-2">
+            Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! 🙏
           </p>
         </div>
 
