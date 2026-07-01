@@ -132,11 +132,12 @@ export async function updateTransaction(txId: string, data: Partial<Transaction>
 export async function getUserTransactions(userId: string): Promise<Transaction[]> {
   const q = query(
     collection(db, 'transactions'),
-    where('userId', '==', userId),
-    orderBy('createdAt', 'desc')
+    where('userId', '==', userId)
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => d.data() as Transaction);
+  const txs = snap.docs.map((d) => d.data() as Transaction);
+  txs.sort((a, b) => b.createdAt.toMillis() - a.createdAt.toMillis());
+  return txs;
 }
 
 export async function getAllTransactions(): Promise<Transaction[]> {
