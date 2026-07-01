@@ -78,7 +78,7 @@ export default function HeroSection() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 mb-12 animate-slideUp" style={{ animationDelay: '0.2s' }}>
             <Link href="/marketplace">
               <Button size="lg" className="!bg-gradient-to-r !from-amber-400 !to-amber-500 !text-amber-900 !shadow-amber-500/30 hover:!shadow-amber-500/50 !font-bold">
-                Mulai Wakaf dari Rp10.000
+                Mulai Wakaf Berapapun
               </Button>
             </Link>
             <Link href="/dashboard">

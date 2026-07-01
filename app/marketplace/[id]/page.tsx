@@ -216,7 +216,9 @@ export default function ProjectDetailPage() {
                         <div className="w-9 h-9 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-sm">
                           {idx + 1}
                         </div>
-                        <span className="text-sm font-medium text-gray-700">Wakif #{d.userId.slice(-6)}</span>
+                        <span className="text-sm font-medium text-gray-700">
+                          {d.donorName || (d.userId !== 'guest' ? `Wakif #${d.userId.slice(-6)}` : 'Hamba Allah')}
+                        </span>
                       </div>
                       <span className="text-sm font-bold text-teal-700">{formatCurrency(d.amount)}</span>
                     </div>
