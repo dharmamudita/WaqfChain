@@ -209,8 +209,8 @@ export default function ProjectDetailPage() {
                 </div>
               </div>
               {donors.length > 0 ? (
-                <div className="space-y-3">
-                  {donors.slice(0, 10).map((d, idx) => (
+                <div className="space-y-3 max-h-[320px] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-gray-50 [&::-webkit-scrollbar-thumb]:bg-gray-200 hover:[&::-webkit-scrollbar-thumb]:bg-gray-300 [&::-webkit-scrollbar-thumb]:rounded-full">
+                  {donors.map((d, idx) => (
                     <div key={idx} className="flex items-center justify-between p-3 bg-gray-50/80 rounded-2xl hover:bg-teal-50/50 transition-colors">
                       <div className="flex items-center gap-3">
                         <div className="w-9 h-9 bg-gradient-to-br from-teal-500 to-teal-700 rounded-xl flex items-center justify-center text-white text-xs font-bold shadow-sm">
