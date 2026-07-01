@@ -6,8 +6,9 @@ import { useAuth } from '@/hooks/useAuth';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-import { Heart, Hourglass, AlertTriangle } from 'lucide-react';
+import { Heart, Hourglass, AlertTriangle, QrCode } from 'lucide-react';
 import type { Project } from '@/types';
+import { QRCodeSVG } from 'qrcode.react';
 
 const presetAmounts = [
   { value: 10000, label: 'Rp10.000' },
@@ -28,6 +29,7 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
   const [amount, setAmount] = useState<number>(0);
   const [customAmount, setCustomAmount] = useState('');
   const [loading, setLoading] = useState(false);
+  const [showQR, setShowQR] = useState(false);
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -61,6 +63,10 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
       return;
     }
 
+    // Bypass Midtrans connection to show Dummy QR
+    setShowQR(true);
+
+    /* --- MIDTRANS API CONNECTION (DISABLED TEMPORARILY) ---
     setLoading(true);
     try {
       const res = await fetch('/api/midtrans/create-transaction', {
@@ -105,12 +111,53 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
     } finally {
       setLoading(false);
     }
+    ------------------------------------------------------ */
   };
 
   const remaining = project.targetAmount - project.collectedAmount;
 
   return (
-    <Modal isOpen={isOpen} onClose={onClose} title="Wakaf Sekarang" size="md">
+    <Modal isOpen={isOpen} onClose={() => { setShowQR(false); onClose(); }} title={showQR ? "Selesaikan Pembayaran" : "Wakaf Sekarang"} size={showQR ? "sm" : "md"}>
+      {showQR ? (
+        <div className="flex flex-col items-center justify-center space-y-6 pb-4">
+          <div className="text-center">
+            <h4 className="font-bold text-gray-900 mb-1">Scan QRIS Simulator</h4>
+            <p className="text-sm text-gray-500">Gunakan aplikasi m-Banking atau e-Wallet</p>
+          </div>
+          
+          <div className="bg-white p-6 rounded-3xl shadow-premium border border-gray-100 flex flex-col items-center gap-4">
+            <QRCodeSVG value={`WAKAF_SIMULATOR_${project.id}_${selectedAmount}`} size={200} level="H" />
+            <div className="flex items-center justify-center gap-2 text-teal-600 font-bold text-sm bg-teal-50 px-4 py-1.5 rounded-full">
+              <QrCode className="w-4 h-4" /> QRIS Dummy
+            </div>
+          </div>
+
+          <div className="bg-gradient-to-r from-amber-50 to-amber-100/50 text-amber-900 p-4 rounded-xl text-center w-full border border-amber-200/50 shadow-sm">
+            <p className="text-sm font-semibold mb-1">Total Pembayaran:</p>
+            <p className="text-3xl font-extrabold font-heading">
+              {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(selectedAmount)}
+            </p>
+          </div>
+
+          <Button 
+            variant="primary" 
+            size="lg"
+            fullWidth 
+            onClick={() => {
+              toast.success('Simulasi Pembayaran Berhasil!');
+              setShowQR(false);
+              onClose();
+            }}
+            className="shadow-lg"
+          >
+            Selesai (Simulasi)
+          </Button>
+          
+          <p className="text-xs text-gray-400 text-center leading-relaxed max-w-[250px]">
+            *Ini adalah QR Code simulasi, karena pembayaran otomatis Midtrans sedang dinonaktifkan.
+          </p>
+        </div>
+      ) : (
       <div className="space-y-6">
         {/* Project Info */}
         <div className="bg-teal-50 rounded-xl p-4">
@@ -186,9 +233,10 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
         </Button>
 
         <p className="text-center text-xs text-gray-400">
-          Pembayaran diproses secara aman melalui Midtrans
+          Pembayaran diproses secara aman (Midtrans Nonaktif sementara)
         </p>
       </div>
+      )}
     </Modal>
   );
 }
