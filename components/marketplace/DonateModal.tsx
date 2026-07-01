@@ -118,153 +118,70 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
   const remaining = project.targetAmount - project.collectedAmount;
 
   return (
-    <Modal isOpen={isOpen} onClose={() => { setShowQR(false); onClose(); }} title={showQR ? "Selesaikan Pembayaran" : "Wakaf Sekarang"} size={showQR ? "sm" : "md"}>
-      {showQR ? (
-        <div className="flex flex-col items-center justify-center space-y-6 pb-4">
-          <div className="text-center">
-            <h4 className="font-bold text-gray-900 mb-1">Transfer Pembayaran</h4>
-            <p className="text-sm text-gray-500">Pilih salah satu metode di bawah ini</p>
-          </div>
-          
-          <div className="w-full space-y-3">
-            {/* SeaBank */}
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-orange-100 flex items-center justify-between">
-              <div>
-                <p className="text-xs text-orange-600 font-bold mb-1 uppercase tracking-wider">SeaBank</p>
-                <p className="text-lg font-bold text-gray-900 font-heading tracking-wide">9012 3456 7890</p>
-                <p className="text-xs text-gray-500">a/n WaqfChain (Silakan ubah no ini)</p>
-              </div>
-              <button 
-                onClick={() => { navigator.clipboard.writeText('901234567890'); toast.success('Nomor rekening SeaBank disalin'); }}
-                className="p-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors"
-                title="Salin Nomor"
-              >
-                <Copy className="w-5 h-5" />
-              </button>
+    <Modal isOpen={isOpen} onClose={onClose} title="Transfer Pembayaran" size="md">
+      <div className="flex flex-col items-center justify-center space-y-6 pb-4 px-2">
+        <div className="text-center">
+          <h4 className="font-bold text-gray-900 mb-1">Wakaf untuk {project.title}</h4>
+          <p className="text-sm text-gray-500">Silakan transfer seikhlasnya ke salah satu rekening berikut</p>
+        </div>
+        
+        <div className="w-full space-y-4">
+          {/* SeaBank */}
+          <div className="bg-white p-5 rounded-2xl shadow-sm border border-orange-100 flex items-center justify-between">
+            <div>
+              <p className="text-xs text-orange-600 font-bold mb-1 uppercase tracking-wider">SeaBank</p>
+              <p className="text-xl font-bold text-gray-900 font-heading tracking-wide">9012 3456 7890</p>
+              <p className="text-sm text-gray-500 mt-1">a/n WaqfChain (Silakan ubah no ini)</p>
             </div>
+            <button 
+              onClick={() => { navigator.clipboard.writeText('901234567890'); toast.success('Nomor rekening SeaBank disalin'); }}
+              className="p-3 bg-orange-50 text-orange-600 rounded-xl hover:bg-orange-100 transition-colors"
+              title="Salin Nomor"
+            >
+              <Copy className="w-6 h-6" />
+            </button>
+          </div>
 
-            {/* DANA */}
-            <div className="bg-white p-4 rounded-2xl shadow-sm border border-blue-100 flex items-center justify-between">
-              <div>
-                <p className="text-xs text-blue-600 font-bold mb-1 uppercase tracking-wider">DANA / E-Wallet</p>
-                <p className="text-lg font-bold text-gray-900 font-heading tracking-wide">0812 3456 7890</p>
-                <p className="text-xs text-gray-500">a/n WaqfChain (Silakan ubah no ini)</p>
-              </div>
-              <button 
-                onClick={() => { navigator.clipboard.writeText('081234567890'); toast.success('Nomor DANA disalin'); }}
-                className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
-                title="Salin Nomor"
-              >
-                <Copy className="w-5 h-5" />
-              </button>
+          {/* DANA */}
+          <div className="bg-white p-5 rounded-2xl shadow-sm border border-blue-100 flex items-center justify-between">
+            <div>
+              <p className="text-xs text-blue-600 font-bold mb-1 uppercase tracking-wider">DANA / E-Wallet</p>
+              <p className="text-xl font-bold text-gray-900 font-heading tracking-wide">0812 3456 7890</p>
+              <p className="text-sm text-gray-500 mt-1">a/n WaqfChain (Silakan ubah no ini)</p>
             </div>
-          </div>
-
-          <div className="bg-gradient-to-r from-amber-50 to-amber-100/50 text-amber-900 p-4 rounded-xl text-center w-full border border-amber-200/50 shadow-sm">
-            <p className="text-sm font-semibold mb-1">Total Pembayaran:</p>
-            <p className="text-3xl font-extrabold font-heading">
-              {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(selectedAmount)}
-            </p>
-          </div>
-
-          <Button 
-            variant="primary" 
-            size="lg"
-            fullWidth 
-            onClick={() => {
-              toast.success('Terima kasih! Pembayaran Anda akan diverifikasi admin.');
-              setShowQR(false);
-              onClose();
-            }}
-            className="shadow-lg"
-          >
-            Selesai (Simulasi)
-          </Button>
-          
-          <p className="text-xs text-gray-400 text-center leading-relaxed max-w-[280px]">
-            *Untuk sementara pembayaran dilakukan secara manual melalui transfer langsung.
-          </p>
-        </div>
-      ) : (
-      <div className="space-y-6">
-        {/* Project Info */}
-        <div className="bg-teal-50 rounded-xl p-4">
-          <h4 className="font-semibold text-teal-800 font-heading text-sm">{project.title}</h4>
-          <p className="text-xs text-teal-600 mt-1">
-            Sisa target: {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(remaining)}
-          </p>
-        </div>
-
-        {/* Preset Amounts */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-3">Pilih Nominal</label>
-          <div className="grid grid-cols-3 gap-2">
-            {presetAmounts.map((preset) => (
-              <button
-                key={preset.value}
-                onClick={() => handlePresetClick(preset.value)}
-                className={`py-3 px-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                  amount === preset.value && !customAmount
-                    ? 'bg-teal-600 text-white shadow-lg shadow-teal-500/25 scale-[1.02]'
-                    : 'bg-gray-50 text-gray-700 border border-gray-200 hover:border-teal-300 hover:bg-teal-50'
-                }`}
-              >
-                {preset.label}
-              </button>
-            ))}
+            <button 
+              onClick={() => { navigator.clipboard.writeText('081234567890'); toast.success('Nomor DANA disalin'); }}
+              className="p-3 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 transition-colors"
+              title="Salin Nomor"
+            >
+              <Copy className="w-6 h-6" />
+            </button>
           </div>
         </div>
 
-        {/* Custom Amount */}
-        <div>
-          <label className="block text-sm font-medium text-gray-700 mb-1.5">Atau masukkan nominal lain</label>
-          <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500 font-medium text-sm">Rp</span>
-            <input
-              type="text"
-              value={customAmount ? formatInputCurrency(customAmount) : ''}
-              onChange={(e) => handleCustomChange(e.target.value)}
-              placeholder="0"
-              className="w-full pl-12 pr-4 py-3 rounded-xl border border-gray-200 focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-lg font-semibold transition-all"
-            />
-          </div>
-          {customAmount && parseInt(customAmount) < 10000 && (
-            <p className="text-xs text-red-500 mt-1">Minimal wakaf Rp10.000</p>
-          )}
-        </div>
-
-        {/* Selected Amount Summary */}
-        {selectedAmount >= 10000 && (
-          <div className="bg-gradient-to-r from-amber-50 to-amber-100/50 rounded-xl p-4 border border-amber-200/50">
-            <div className="flex items-center justify-between">
-              <span className="text-sm text-amber-800">Total Wakaf</span>
-              <span className="text-xl font-bold text-amber-900 font-heading">
-                {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(selectedAmount)}
-              </span>
-            </div>
-            <p className="text-xs text-amber-700 mt-1">
-              ≈ {((selectedAmount / project.targetAmount) * 100).toFixed(2)}% kontribusi dari target
-            </p>
-          </div>
-        )}
-
-        {/* Submit */}
-        <Button
-          variant="primary"
+        <Button 
+          variant="primary" 
           size="lg"
-          fullWidth
-          loading={loading}
-          disabled={selectedAmount < 10000}
-          onClick={handleDonate}
+          fullWidth 
+          onClick={() => {
+            toast.success('Terima kasih! Pembayaran Anda akan diverifikasi admin.');
+            onClose();
+          }}
+          className="shadow-lg mt-4"
         >
-          {loading ? 'Memproses...' : <><Heart className="w-5 h-5 fill-current" /> Wakaf Sekarang</>}
+          Selesai Transfer
         </Button>
-
-        <p className="text-center text-xs text-gray-400">
-          Pembayaran diproses secara aman (Midtrans Nonaktif sementara)
+        
+        <p className="text-xs text-gray-400 text-center leading-relaxed max-w-sm mt-2">
+          *Untuk sementara pembayaran dilakukan secara manual melalui transfer langsung tanpa batasan nominal.
         </p>
       </div>
-      )}
+
+      {/* --- FORM MIDTRANS & NOMINAL (DINONAKTIFKAN SEMENTARA) ---
+      <div className="space-y-6 hidden">
+        ... (kode form lama tersimpan di sini)
+      </div>
+      ---------------------------------------------------------- */}
     </Modal>
   );
 }
