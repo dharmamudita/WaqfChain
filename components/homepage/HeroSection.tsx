@@ -18,9 +18,16 @@ export default function HeroSection() {
   const [stats, setStats] = useState({ totalCollected: 0, totalProjects: 0, totalDonors: 0 });
 
   useEffect(() => {
-    getStats().then(setStats).catch(() => {
-      // Use fallback demo data
-      setStats({ totalCollected: 2847500000, totalProjects: 24, totalDonors: 1847 });
+    getStats().then((data) => {
+      setStats({
+        totalCollected: data.totalCollected || 0,
+        totalProjects: data.totalProjects || 0,
+        totalDonors: data.totalDonors || 0
+      });
+    }).catch((error) => {
+      console.error("Gagal mengambil data statistik:", error);
+      // Sinkron dengan database, jika gagal load/kosong, tampilkan 0
+      setStats({ totalCollected: 0, totalProjects: 0, totalDonors: 0 });
     });
   }, []);
 
