@@ -9,6 +9,7 @@ import toast from 'react-hot-toast';
 import { Heart, Hourglass, AlertTriangle, QrCode } from 'lucide-react';
 import type { Project } from '@/types';
 import { QRCodeSVG } from 'qrcode.react';
+import { Copy } from 'lucide-react';
 
 const presetAmounts = [
   { value: 10000, label: 'Rp10.000' },
@@ -121,14 +122,41 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
       {showQR ? (
         <div className="flex flex-col items-center justify-center space-y-6 pb-4">
           <div className="text-center">
-            <h4 className="font-bold text-gray-900 mb-1">Scan QRIS Simulator</h4>
-            <p className="text-sm text-gray-500">Gunakan aplikasi m-Banking atau e-Wallet</p>
+            <h4 className="font-bold text-gray-900 mb-1">Transfer Pembayaran</h4>
+            <p className="text-sm text-gray-500">Pilih salah satu metode di bawah ini</p>
           </div>
           
-          <div className="bg-white p-6 rounded-3xl shadow-premium border border-gray-100 flex flex-col items-center gap-4">
-            <QRCodeSVG value={`WAKAF_SIMULATOR_${project.id}_${selectedAmount}`} size={200} level="H" />
-            <div className="flex items-center justify-center gap-2 text-teal-600 font-bold text-sm bg-teal-50 px-4 py-1.5 rounded-full">
-              <QrCode className="w-4 h-4" /> QRIS Dummy
+          <div className="w-full space-y-3">
+            {/* SeaBank */}
+            <div className="bg-white p-4 rounded-2xl shadow-sm border border-orange-100 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-orange-600 font-bold mb-1 uppercase tracking-wider">SeaBank</p>
+                <p className="text-lg font-bold text-gray-900 font-heading tracking-wide">9012 3456 7890</p>
+                <p className="text-xs text-gray-500">a/n WaqfChain (Silakan ubah no ini)</p>
+              </div>
+              <button 
+                onClick={() => { navigator.clipboard.writeText('901234567890'); toast.success('Nomor rekening SeaBank disalin'); }}
+                className="p-2 bg-orange-50 text-orange-600 rounded-lg hover:bg-orange-100 transition-colors"
+                title="Salin Nomor"
+              >
+                <Copy className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* DANA */}
+            <div className="bg-white p-4 rounded-2xl shadow-sm border border-blue-100 flex items-center justify-between">
+              <div>
+                <p className="text-xs text-blue-600 font-bold mb-1 uppercase tracking-wider">DANA / E-Wallet</p>
+                <p className="text-lg font-bold text-gray-900 font-heading tracking-wide">0812 3456 7890</p>
+                <p className="text-xs text-gray-500">a/n WaqfChain (Silakan ubah no ini)</p>
+              </div>
+              <button 
+                onClick={() => { navigator.clipboard.writeText('081234567890'); toast.success('Nomor DANA disalin'); }}
+                className="p-2 bg-blue-50 text-blue-600 rounded-lg hover:bg-blue-100 transition-colors"
+                title="Salin Nomor"
+              >
+                <Copy className="w-5 h-5" />
+              </button>
             </div>
           </div>
 
@@ -144,7 +172,7 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
             size="lg"
             fullWidth 
             onClick={() => {
-              toast.success('Simulasi Pembayaran Berhasil!');
+              toast.success('Terima kasih! Pembayaran Anda akan diverifikasi admin.');
               setShowQR(false);
               onClose();
             }}
@@ -153,8 +181,8 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
             Selesai (Simulasi)
           </Button>
           
-          <p className="text-xs text-gray-400 text-center leading-relaxed max-w-[250px]">
-            *Ini adalah QR Code simulasi, karena pembayaran otomatis Midtrans sedang dinonaktifkan.
+          <p className="text-xs text-gray-400 text-center leading-relaxed max-w-[280px]">
+            *Untuk sementara pembayaran dilakukan secara manual melalui transfer langsung.
           </p>
         </div>
       ) : (
