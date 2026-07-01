@@ -175,33 +175,37 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
     <Modal isOpen={isOpen} onClose={onClose} title="Dukung Tim WaqfChain" size="md">
       <div className="flex flex-col items-center justify-center space-y-5 pb-2 px-1">
         
-        {/* Header Section */}
-        <div className="text-center">
-          <h4 className="font-extrabold text-amber-500 mb-1.5 text-xl flex items-center justify-center gap-2">
-            Bantu Kami Juara! <Trophy className="w-5 h-5" />
-          </h4>
-          <p className="text-sm text-gray-500 px-2 leading-relaxed">
-            Dukungan seikhlasnya dari Anda sangat berarti untuk memacu semangat tim kami.
-          </p>
-        </div>
-        
-        {/* QR Code Container */}
-        <div className="w-full flex flex-col items-center justify-center">
-          <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-3 w-full max-w-[240px]">
-            <img src="/qris-payment.jpeg" alt="QRIS Payment" className="w-full h-auto rounded-xl object-contain border border-gray-50" />
-            
-            <div className="flex items-center justify-center gap-2 text-teal-700 font-bold text-sm bg-teal-50 px-4 py-2 rounded-xl w-full border border-teal-100">
-              <QrCode className="w-4 h-4" /> Scan untuk Dukung
+        {!showConfirmForm && !success && (
+          <>
+            {/* Header Section */}
+            <div className="text-center">
+              <h4 className="font-extrabold text-amber-500 mb-1.5 text-xl flex items-center justify-center gap-2">
+                Bantu Kami Juara! <Trophy className="w-5 h-5" />
+              </h4>
+              <p className="text-sm text-gray-500 px-2 leading-relaxed">
+                Dukungan seikhlasnya dari Anda sangat berarti untuk memacu semangat tim kami.
+              </p>
             </div>
-          </div>
-        </div>
+            
+            {/* QR Code Container */}
+            <div className="w-full flex flex-col items-center justify-center">
+              <div className="bg-white p-3 rounded-2xl shadow-sm border border-gray-100 flex flex-col items-center gap-3 w-full max-w-[240px]">
+                <img src="/qris-payment.jpeg" alt="QRIS Payment" className="w-full h-auto rounded-xl object-contain border border-gray-50" />
+                
+                <div className="flex items-center justify-center gap-2 text-teal-700 font-bold text-sm bg-teal-50 px-4 py-2 rounded-xl w-full border border-teal-100">
+                  <QrCode className="w-4 h-4" /> Scan untuk Dukung
+                </div>
+              </div>
+            </div>
 
-        {/* Info Box */}
-        <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 w-full max-w-[280px] text-center">
-          <p className="text-[11px] text-amber-800 leading-relaxed font-medium">
-            Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! <HeartHandshake className="w-3 h-3 inline-block text-amber-600 ml-0.5 mb-0.5" />
-          </p>
-        </div>
+            {/* Info Box */}
+            <div className="bg-amber-50 border border-amber-100 rounded-xl p-3 w-full max-w-[280px] text-center">
+              <p className="text-[11px] text-amber-800 leading-relaxed font-medium">
+                Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! <HeartHandshake className="w-3 h-3 inline-block text-amber-600 ml-0.5 mb-0.5" />
+              </p>
+            </div>
+          </>
+        )}
         {success ? (
           <div className="bg-teal-50 border border-teal-100 p-6 rounded-2xl flex flex-col items-center gap-3 text-center w-full mt-4">
             <CheckCircle className="w-12 h-12 text-teal-600" />
@@ -213,6 +217,10 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
           </div>
         ) : showConfirmForm ? (
           <div className="w-full space-y-4 mt-2">
+            <div className="text-center mb-4">
+              <h4 className="font-extrabold text-teal-700 mb-1 text-lg">Konfirmasi Transfer</h4>
+              <p className="text-xs text-gray-500">Mohon isi data di bawah agar kami dapat memverifikasi donasi Anda.</p>
+            </div>
             <div>
               <label className="block text-xs font-semibold text-gray-700 mb-1">Nama Anda</label>
               <input type="text" value={donorName} onChange={e => setDonorName(e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-sm" placeholder="Nama lengkap" />
