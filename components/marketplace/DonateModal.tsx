@@ -6,7 +6,7 @@ import { useAuth } from '@/hooks/useAuth';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-import { Heart, Hourglass, AlertTriangle, QrCode, Trophy, HeartHandshake } from 'lucide-react';
+import { Heart, Hourglass, AlertTriangle, QrCode, Trophy, HeartHandshake, Sparkles } from 'lucide-react';
 import type { Project } from '@/types';
 import { QRCodeSVG } from 'qrcode.react';
 import { Copy } from 'lucide-react';
@@ -119,27 +119,45 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
 
   return (
     <Modal isOpen={isOpen} onClose={onClose} title="Dukung Tim WaqfChain" size="md">
-      <div className="flex flex-col items-center justify-center space-y-6 pb-4 px-2">
-        <div className="text-center">
-          <h4 className="font-bold text-gray-900 mb-1 text-lg flex items-center justify-center gap-2">
-            Bantu Kami Juara! <Trophy className="w-5 h-5 text-amber-500" />
-          </h4>
-          <p className="text-sm text-gray-500 px-4">Dukungan seikhlasnya dari Anda sangat berarti untuk memacu semangat tim kami dalam perlombaan ini.</p>
-        </div>
+      <div className="flex flex-col items-center justify-center space-y-7 pb-4 px-2">
         
-        <div className="w-full flex flex-col items-center justify-center space-y-4">
-          <div className="bg-white p-4 rounded-3xl shadow-premium border border-gray-100 flex flex-col items-center gap-3 w-full max-w-[280px]">
-            <img src="/qris-payment.jpeg" alt="QRIS Payment" className="w-full h-auto rounded-xl object-contain shadow-sm" />
-            <div className="flex items-center justify-center gap-2 text-teal-700 font-bold text-sm bg-teal-50 px-4 py-2 rounded-xl w-full border border-teal-100">
-              <QrCode className="w-4 h-4" /> Scan untuk Dukung
-            </div>
-          </div>
-          <p className="text-sm text-gray-500 text-center font-medium px-2">
-            Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! <HeartHandshake className="w-4 h-4 inline-block text-teal-600 ml-1 mb-0.5" />
+        {/* Header Section */}
+        <div className="text-center relative">
+          <div className="absolute -top-6 -left-6 w-12 h-12 bg-amber-200/50 rounded-full blur-2xl"></div>
+          <div className="absolute -top-6 -right-6 w-12 h-12 bg-teal-200/50 rounded-full blur-2xl"></div>
+          
+          <h4 className="font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-amber-600 to-amber-400 mb-2 text-2xl flex items-center justify-center gap-2 drop-shadow-sm">
+            Bantu Kami Juara! <Trophy className="w-6 h-6 text-amber-500 drop-shadow-md" />
+          </h4>
+          <p className="text-sm text-gray-500 px-4 leading-relaxed relative z-10">
+            Dukungan seikhlasnya dari Anda sangat berarti untuk memacu semangat tim kami dalam perlombaan ini.
           </p>
         </div>
+        
+        {/* QR Code Container */}
+        <div className="w-full flex flex-col items-center justify-center relative">
+          {/* Subtle glow behind QR */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[280px] h-[280px] bg-gradient-to-tr from-amber-200/40 to-teal-200/40 rounded-full blur-3xl z-0"></div>
+          
+          <div className="relative z-10 bg-white/90 backdrop-blur-sm p-5 rounded-[2rem] shadow-[0_8px_40px_rgb(0,0,0,0.08)] border border-white/60 flex flex-col items-center gap-4 w-full max-w-[300px]">
+            <div className="bg-white p-2 rounded-2xl shadow-inner border border-gray-50 w-full">
+              <img src="/qris-payment.jpeg" alt="QRIS Payment" className="w-full h-auto rounded-xl object-contain" />
+            </div>
+            
+            <div className="flex items-center justify-center gap-2 text-white font-bold text-sm bg-gradient-to-r from-teal-600 to-teal-500 px-5 py-2.5 rounded-xl w-full shadow-lg shadow-teal-500/25 tracking-wide">
+              <QrCode className="w-4 h-4" /> Scan QRIS Sekarang
+            </div>
+          </div>
+        </div>
 
-
+        {/* Info Box */}
+        <div className="bg-amber-50/80 backdrop-blur-sm border border-amber-200/50 rounded-2xl p-4 w-full text-center shadow-sm relative overflow-hidden">
+          <Sparkles className="w-24 h-24 text-amber-500/10 absolute -top-4 -right-4 rotate-12" />
+          <p className="text-xs text-amber-800 leading-relaxed font-medium relative z-10">
+            Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja.<br/>
+            Berapapun nominalnya, kami sangat berterima kasih! <HeartHandshake className="w-4 h-4 inline-block text-amber-600 ml-1 mb-0.5" />
+          </p>
+        </div>
         <Button 
           variant="primary" 
           size="lg"
