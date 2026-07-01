@@ -46,7 +46,7 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
     <Link href={`/marketplace/${project.id}`}>
       <div className={`group bg-white rounded-3xl border border-gray-100 overflow-hidden shadow-premium relative ${featured ? 'md:col-span-1' : ''}`}>
         {/* Image */}
-        <div className="relative h-48 overflow-hidden">
+        <div className="relative h-32 md:h-48 overflow-hidden">
           <img
             src={imageUrl}
             alt={project.title}
@@ -72,11 +72,11 @@ export default function ProjectCard({ project, featured = false }: ProjectCardPr
         </div>
 
         {/* Content */}
-        <div className="p-6">
-          <h3 className="font-bold text-lg text-gray-900 font-heading mb-2 line-clamp-2">
+        <div className="p-4 md:p-6">
+          <h3 className="font-bold text-base md:text-lg text-gray-900 font-heading mb-2 line-clamp-2">
             {project.title}
           </h3>
-          <p className="text-sm text-gray-500 mb-4 line-clamp-2">{project.description}</p>
+          <p className="text-xs md:text-sm text-gray-500 mb-4 line-clamp-2">{project.description}</p>
 
           {/* Progress */}
           <div className="mb-4">

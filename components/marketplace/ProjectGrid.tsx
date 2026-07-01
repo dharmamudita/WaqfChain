@@ -10,7 +10,7 @@ interface ProjectGridProps {
 export default function ProjectGrid({ projects, loading }: ProjectGridProps) {
   if (loading) {
     return (
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
         {[...Array(6)].map((_, i) => (
           <div key={i} className="bg-white rounded-3xl border border-gray-100 overflow-hidden animate-pulse shadow-premium">
             <div className="h-48 bg-gradient-to-r from-gray-100 to-gray-200" />
@@ -44,7 +44,7 @@ export default function ProjectGrid({ projects, loading }: ProjectGridProps) {
   }
 
   return (
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 md:gap-6">
       {projects.map((project) => (
         <ProjectCard key={project.id} project={project} />
       ))}
