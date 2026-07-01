@@ -52,14 +52,14 @@ export default function Sidebar() {
           Admin Panel
         </h3>
       </div>
-      <nav className="flex md:flex-col gap-2 md:space-y-1 overflow-x-auto pb-1 md:pb-0 [&::-webkit-scrollbar]:hidden">
+      <nav className="grid grid-cols-2 md:flex md:flex-col gap-2 md:space-y-1 pb-1 md:pb-0">
         {sidebarLinks.map((link) => {
           const isActive = pathname === link.href;
           return (
             <Link
               key={link.href}
               href={link.href}
-              className={`flex-shrink-0 flex items-center gap-2 md:gap-3 px-4 py-2 md:px-3 md:py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
+              className={`flex items-center gap-2 md:gap-3 px-3 py-2.5 md:px-3 md:py-2.5 rounded-xl text-sm font-medium transition-all duration-200 ${
                 isActive
                   ? 'bg-teal-50 text-teal-700 shadow-sm'
                   : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900'
