@@ -40,6 +40,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
   const [mediaUrls, setMediaUrls] = useState<string[]>([]);
   const [categories, setCategories] = useState<ProjectCategory[]>([]);
   const [initialLocation, setInitialLocation] = useState<{lat: number, lng: number} | undefined>(undefined);
+  const [formattedTargetAmount, setFormattedTargetAmount] = useState('');
   const router = useRouter();
   const isEdit = !!projectId;
 
@@ -54,6 +55,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
           setValue('description', p.description);
           setValue('type', p.type);
           setValue('targetAmount', p.targetAmount);
+          setFormattedTargetAmount(new Intl.NumberFormat('id-ID').format(p.targetAmount));
           setValue('lat', p.location.lat);
           setValue('lng', p.location.lng);
           setValue('address', p.location.address);
@@ -62,7 +64,10 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
         }
       });
     }
-  }, [projectId, setValue]);
+    
+    // Register custom field
+    register('targetAmount', { required: 'Target dana wajib diisi', min: { value: 1, message: 'Wajib lebih dari 0' } });
+  }, [projectId, setValue, register]);
 
   const onSubmit = async (data: ProjectFormData) => {
     setLoading(true);
@@ -158,10 +163,16 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
 
         <Input 
           label="Target Dana" 
-          type="number" 
-          placeholder="500000000" 
+          type="text" 
+          placeholder="500.000.000" 
           leftIcon={<span className="font-semibold text-gray-500 text-sm">Rp</span>}
-          {...register('targetAmount', { required: 'Target dana wajib diisi' })} 
+          value={formattedTargetAmount}
+          onChange={(e) => {
+            const rawValue = e.target.value.replace(/\D/g, '');
+            const numberValue = rawValue ? parseInt(rawValue, 10) : 0;
+            setFormattedTargetAmount(rawValue ? new Intl.NumberFormat('id-ID').format(numberValue) : '');
+            setValue('targetAmount', numberValue, { shouldValidate: true });
+          }}
           error={errors.targetAmount?.message} 
         />
       </div>
