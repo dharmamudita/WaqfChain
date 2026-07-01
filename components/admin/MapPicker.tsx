@@ -106,7 +106,7 @@ export default function MapPicker({ defaultLocation, onChange }: MapPickerProps)
     <div className="h-[400px] w-full rounded-xl overflow-hidden border border-gray-200 shadow-sm relative z-0">
       
       {/* Search Bar Overlay */}
-      <div className="absolute top-4 left-4 right-4 z-[1000] flex flex-col gap-1 max-w-sm">
+      <div className="absolute top-4 left-14 right-4 z-[1000] flex flex-col gap-1 max-w-sm">
         <div className="flex bg-white rounded-xl shadow-lg border border-gray-100 overflow-hidden">
           <input 
             type="text" 
