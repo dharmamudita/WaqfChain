@@ -59,8 +59,8 @@ export default function MapPicker({ defaultLocation, onChange }: MapPickerProps)
     <div className="h-[400px] w-full rounded-xl overflow-hidden border border-gray-200 shadow-sm relative z-0">
       <MapContainer center={center} zoom={defaultLocation ? 13 : 5} scrollWheelZoom={true} className="h-full w-full">
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://maps.google.com">Google Maps</a>'
+          url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
         />
         <LocationMarker position={position} setPosition={setPosition} onChange={onChange} />
       </MapContainer>

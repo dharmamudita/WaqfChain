@@ -63,8 +63,8 @@ export default function MapViewer({ markers, center, zoom, className = "h-[400px
     <div className={`${className} rounded-xl overflow-hidden border border-gray-200 shadow-sm relative z-0`}>
       <MapContainer center={defaultCenter} zoom={defaultZoom} scrollWheelZoom={false} className="h-full w-full">
         <TileLayer
-          attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+          attribution='&copy; <a href="https://maps.google.com">Google Maps</a>'
+          url="https://mt1.google.com/vt/lyrs=y&x={x}&y={y}&z={z}"
         />
         {markers.map((marker) => (
           <Marker key={marker.id} position={[marker.lat, marker.lng]} icon={icon}>
