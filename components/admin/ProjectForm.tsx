@@ -156,7 +156,14 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
           {errors.type && <p className="text-red-500 text-sm mt-1">{errors.type.message}</p>}
         </div>
 
-        <Input label="Target Dana (Rp)" type="number" placeholder="500000000" {...register('targetAmount', { required: 'Target dana wajib diisi', min: 1000000 })} error={errors.targetAmount?.message} />
+        <Input 
+          label="Target Dana" 
+          type="number" 
+          placeholder="500000000" 
+          leftIcon={<span className="font-semibold text-gray-500 text-sm">Rp</span>}
+          {...register('targetAmount', { required: 'Target dana wajib diisi' })} 
+          error={errors.targetAmount?.message} 
+        />
       </div>
 
       {/* Location */}
