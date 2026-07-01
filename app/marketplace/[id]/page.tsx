@@ -89,7 +89,7 @@ export default function ProjectDetailPage() {
   return (
     <div className="min-h-screen bg-gray-50/30">
       {/* Dark Header Background */}
-      <div className="relative overflow-hidden bg-gradient-to-br from-teal-950 via-teal-900 to-teal-800 pt-28 pb-32 md:pt-36 md:pb-40">
+      <div className="relative overflow-hidden bg-gradient-to-br from-teal-950 via-teal-900 to-teal-800 pt-24 pb-28 md:pt-28 md:pb-32">
         <div className="absolute inset-0 overflow-hidden">
           <div className="absolute -top-24 -right-24 w-72 h-72 bg-teal-500/15 rounded-full blur-3xl" />
           <div className="absolute -bottom-24 -left-24 w-80 h-80 bg-amber-500/10 rounded-full blur-3xl" />
@@ -111,7 +111,7 @@ export default function ProjectDetailPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Image Gallery */}
             <div className="space-y-3">
-              <div className="relative h-72 md:h-[420px] rounded-3xl overflow-hidden shadow-2xl">
+              <div className="relative h-64 md:h-[340px] rounded-3xl overflow-hidden shadow-xl">
                 <img
                   src={project.mediaUrls[selectedImage] || project.mediaUrls[0]}
                   alt={project.title}
@@ -266,35 +266,35 @@ export default function ProjectDetailPage() {
                   <Heart className="w-5 h-5 fill-current" /> Wakaf Sekarang
                 </Button>
 
-                <p className="text-center text-xs text-gray-400 mt-4">
-                  Mulai dari <span className="font-bold text-teal-600">Rp10.000</span>
+                <p className="text-center text-[11px] text-gray-400 mt-4">
+                  Berapapun nominalnya, <span className="font-bold text-teal-600">berwakaf lebih mudah</span>
                 </p>
               </div>
 
               {/* Share */}
-              <div className="bg-white rounded-3xl p-6 border border-gray-100 shadow-premium">
-                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Bagikan proyek ini</p>
-                <div className="space-y-2">
+              <div className="bg-white rounded-3xl p-5 border border-gray-100 shadow-premium">
+                <p className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-3">Bagikan Proyek Ini</p>
+                <div className="flex gap-2">
                   <button
                     onClick={() => handleShare('whatsapp')}
-                    className="flex items-center gap-3 w-full py-3 px-4 bg-emerald-50 text-emerald-700 rounded-2xl text-sm font-semibold hover:bg-emerald-100 transition-all"
+                    className="flex-1 flex justify-center items-center py-2.5 bg-emerald-50 text-emerald-600 rounded-xl hover:bg-emerald-100 hover:text-emerald-700 transition-all"
+                    title="WhatsApp"
                   >
                     <MessageCircle className="w-5 h-5" />
-                    WhatsApp
                   </button>
                   <button
                     onClick={() => handleShare('facebook')}
-                    className="flex items-center gap-3 w-full py-3 px-4 bg-blue-50 text-blue-700 rounded-2xl text-sm font-semibold hover:bg-blue-100 transition-all"
+                    className="flex-1 flex justify-center items-center py-2.5 bg-blue-50 text-blue-600 rounded-xl hover:bg-blue-100 hover:text-blue-700 transition-all"
+                    title="Facebook"
                   >
                     <Share2 className="w-5 h-5" />
-                    Facebook
                   </button>
                   <button
                     onClick={() => handleShare('copy')}
-                    className="flex items-center gap-3 w-full py-3 px-4 bg-gray-50 text-gray-700 rounded-2xl text-sm font-semibold hover:bg-gray-100 transition-all"
+                    className="flex-1 flex justify-center items-center py-2.5 bg-gray-50 text-gray-600 rounded-xl hover:bg-gray-100 hover:text-gray-700 transition-all"
+                    title="Salin Tautan"
                   >
                     <LinkIcon className="w-5 h-5" />
-                    Salin Link
                   </button>
                 </div>
               </div>
