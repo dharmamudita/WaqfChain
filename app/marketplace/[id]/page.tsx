@@ -111,11 +111,11 @@ export default function ProjectDetailPage() {
           <div className="lg:col-span-2 space-y-6">
             {/* Image Gallery */}
             <div className="space-y-3">
-              <div className="relative h-72 md:h-[420px] rounded-3xl overflow-hidden shadow-2xl group">
+              <div className="relative h-72 md:h-[420px] rounded-3xl overflow-hidden shadow-2xl">
                 <img
                   src={project.mediaUrls[selectedImage] || project.mediaUrls[0]}
                   alt={project.title}
-                  className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                  className="w-full h-full object-cover"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent" />
                 <div className="absolute top-5 left-5 flex gap-2">
