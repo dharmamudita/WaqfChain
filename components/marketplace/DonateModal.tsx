@@ -129,7 +129,9 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
           {/* SeaBank */}
           <div className="bg-white p-5 rounded-2xl shadow-sm border border-orange-100 flex items-center justify-between">
             <div>
-              <p className="text-xs text-orange-600 font-bold mb-1 uppercase tracking-wider">SeaBank</p>
+              <div className="flex items-center gap-2 mb-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/f/f9/SeaBank_logo.png" alt="SeaBank" className="h-5 object-contain" />
+              </div>
               <p className="text-xl font-bold text-gray-900 font-heading tracking-wide">9012 3456 7890</p>
               <p className="text-sm text-gray-500 mt-1">a/n WaqfChain (Silakan ubah no ini)</p>
             </div>
@@ -145,7 +147,9 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
           {/* DANA */}
           <div className="bg-white p-5 rounded-2xl shadow-sm border border-blue-100 flex items-center justify-between">
             <div>
-              <p className="text-xs text-blue-600 font-bold mb-1 uppercase tracking-wider">DANA / E-Wallet</p>
+              <div className="flex items-center gap-2 mb-2">
+                <img src="https://upload.wikimedia.org/wikipedia/commons/7/72/Logo_dana_blue.svg" alt="DANA" className="h-5 object-contain" />
+              </div>
               <p className="text-xl font-bold text-gray-900 font-heading tracking-wide">0812 3456 7890</p>
               <p className="text-sm text-gray-500 mt-1">a/n WaqfChain (Silakan ubah no ini)</p>
             </div>
