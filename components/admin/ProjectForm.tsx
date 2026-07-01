@@ -149,7 +149,7 @@ export default function ProjectForm({ projectId }: ProjectFormProps) {
               <option value="" disabled>-- Belum ada tipe proyek --</option>
             ) : (
               categories.map((c) => (
-                <option key={c.id} value={c.label}>{c.icon} {c.label}</option>
+                <option key={c.id} value={c.label}>{c.label}</option>
               ))
             )}
           </select>
