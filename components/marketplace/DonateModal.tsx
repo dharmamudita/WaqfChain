@@ -127,8 +127,8 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
       toast.error('Mohon isi nama Anda');
       return;
     }
-    if (selectedAmount < 10000) {
-      toast.error('Minimal wakaf Rp10.000');
+    if (selectedAmount <= 0) {
+      toast.error('Nominal wakaf tidak valid');
       return;
     }
     if (!receiptFile) {

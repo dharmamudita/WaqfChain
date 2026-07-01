@@ -87,7 +87,7 @@ export default function HomePage() {
               {
                 step: '02',
                 title: 'Tentukan Nominal',
-                desc: 'Mulai dari Rp10.000, tentukan nominal wakaf sesuai kemampuan Anda.',
+                desc: 'Berapapun nominalnya, tentukan wakaf sesuai dengan keikhlasan dan kemampuan Anda.',
                 icon: <Coins className="w-12 h-12" />,
               },
               {
