@@ -6,10 +6,11 @@ import { useAuth } from '@/hooks/useAuth';
 import Modal from '@/components/ui/Modal';
 import Button from '@/components/ui/Button';
 import toast from 'react-hot-toast';
-import { Heart, Hourglass, AlertTriangle, QrCode, Trophy, HeartHandshake, Sparkles } from 'lucide-react';
+import { Heart, Hourglass, AlertTriangle, QrCode, Trophy, HeartHandshake, Sparkles, UploadCloud, CheckCircle, Image as ImageIcon } from 'lucide-react';
 import type { Project } from '@/types';
 import { QRCodeSVG } from 'qrcode.react';
 import { Copy } from 'lucide-react';
+import { uploadImage, createTransaction } from '@/lib/firestore';
 
 const presetAmounts = [
   { value: 10000, label: 'Rp10.000' },
@@ -31,6 +32,12 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
   const [customAmount, setCustomAmount] = useState('');
   const [loading, setLoading] = useState(false);
   const [showQR, setShowQR] = useState(false);
+  const [showConfirmForm, setShowConfirmForm] = useState(false);
+  const [donorName, setDonorName] = useState('');
+  const [message, setMessage] = useState('');
+  const [receiptFile, setReceiptFile] = useState<File | null>(null);
+  const [success, setSuccess] = useState(false);
+
   const { user, isAuthenticated } = useAuth();
   const router = useRouter();
 
@@ -115,6 +122,53 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
     ------------------------------------------------------ */
   };
 
+  const handleManualSubmit = async () => {
+    if (!donorName.trim()) {
+      toast.error('Mohon isi nama Anda');
+      return;
+    }
+    if (selectedAmount < 10000) {
+      toast.error('Minimal wakaf Rp10.000');
+      return;
+    }
+    if (!receiptFile) {
+      toast.error('Mohon unggah bukti transfer');
+      return;
+    }
+
+    setLoading(true);
+    try {
+      // 1. Upload receipt to Cloudinary
+      const receiptUrl = await uploadImage(receiptFile, 'receipts');
+      
+      // 2. Create transaction record
+      const txId = 'TX' + Date.now();
+      await createTransaction({
+        txId,
+        orderId: `MANUAL-${txId}`,
+        userId: user?.uid || 'guest',
+        projectId: project.id,
+        projectTitle: project.title,
+        amount: selectedAmount,
+        percentage: 0,
+        qrCodeUrl: '',
+        paymentMethod: 'manual',
+        status: 'pending',
+        donorName,
+        message,
+        manualReceiptUrl: receiptUrl,
+      });
+
+      setSuccess(true);
+      toast.success('Bukti transfer berhasil diunggah! Menunggu verifikasi admin.');
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Gagal mengirim konfirmasi';
+      toast.error(msg);
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const remaining = project.targetAmount - project.collectedAmount;
 
   return (
@@ -148,22 +202,63 @@ export default function DonateModal({ isOpen, onClose, project }: DonateModalPro
             Bisa di-scan dari aplikasi m-Banking atau E-Wallet apa saja. Berapapun nominalnya, kami sangat berterima kasih! <HeartHandshake className="w-3 h-3 inline-block text-amber-600 ml-0.5 mb-0.5" />
           </p>
         </div>
-        <Button 
-          variant="primary" 
-          size="lg"
-          fullWidth 
-          onClick={() => {
-            toast.success('Terima kasih! Pembayaran Anda akan diverifikasi admin.');
-            onClose();
-          }}
-          className="shadow-lg mt-4"
-        >
-          Selesai Transfer
-        </Button>
-        
-        <p className="text-xs text-gray-400 text-center leading-relaxed max-w-sm mt-2">
-          *Untuk sementara pembayaran dilakukan secara manual melalui transfer langsung tanpa batasan nominal.
-        </p>
+        {success ? (
+          <div className="bg-teal-50 border border-teal-100 p-6 rounded-2xl flex flex-col items-center gap-3 text-center w-full mt-4">
+            <CheckCircle className="w-12 h-12 text-teal-600" />
+            <div>
+              <h5 className="font-bold text-teal-900 mb-1">Terima Kasih!</h5>
+              <p className="text-sm text-teal-700">Bukti transfer Anda telah diterima dan sedang menunggu verifikasi admin.</p>
+            </div>
+            <Button variant="primary" onClick={onClose} className="mt-2" fullWidth>Tutup</Button>
+          </div>
+        ) : showConfirmForm ? (
+          <div className="w-full space-y-4 mt-2">
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Nama Anda</label>
+              <input type="text" value={donorName} onChange={e => setDonorName(e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-sm" placeholder="Nama lengkap" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Nominal Transfer (Rp)</label>
+              <input type="text" value={customAmount ? formatInputCurrency(customAmount) : ''} onChange={e => handleCustomChange(e.target.value)} className="w-full px-3 py-2 border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-teal-500/20 focus:border-teal-500 text-sm" placeholder="Contoh: 50.000" />
+            </div>
+            <div>
+              <label className="block text-xs font-semibold text-gray-700 mb-1">Bukti Transfer (Screenshot)</label>
+              <div className="border-2 border-dashed border-gray-200 rounded-xl p-4 flex flex-col items-center justify-center text-center hover:bg-gray-50 transition relative overflow-hidden">
+                <input type="file" accept="image/*" onChange={e => setReceiptFile(e.target.files?.[0] || null)} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer z-10" />
+                {receiptFile ? (
+                  <div className="flex flex-col items-center">
+                    <CheckCircle className="w-6 h-6 text-teal-500 mb-1" />
+                    <span className="text-xs text-teal-700 font-medium truncate max-w-[200px]">{receiptFile.name}</span>
+                  </div>
+                ) : (
+                  <div className="flex flex-col items-center text-gray-400">
+                    <UploadCloud className="w-6 h-6 mb-1" />
+                    <span className="text-xs font-medium">Klik untuk upload resi (.jpg/.png)</span>
+                  </div>
+                )}
+              </div>
+            </div>
+            <div className="flex gap-2 pt-2">
+              <Button variant="outline" fullWidth onClick={() => setShowConfirmForm(false)} disabled={loading}>Kembali</Button>
+              <Button variant="primary" fullWidth onClick={handleManualSubmit} loading={loading}>Kirim Bukti</Button>
+            </div>
+          </div>
+        ) : (
+          <div className="w-full text-center">
+            <Button 
+              variant="primary" 
+              size="lg"
+              fullWidth 
+              onClick={() => setShowConfirmForm(true)}
+              className="shadow-lg mt-4 mb-2"
+            >
+              Saya Sudah Transfer
+            </Button>
+            <p className="text-[10px] text-gray-400 leading-relaxed max-w-sm mx-auto">
+              *Setelah mentransfer melalui QRIS, mohon konfirmasi agar kami bisa mencatat dukungan Anda secara resmi.
+            </p>
+          </div>
+        )}
       </div>
 
       {/* --- FORM MIDTRANS & NOMINAL (DINONAKTIFKAN SEMENTARA) ---

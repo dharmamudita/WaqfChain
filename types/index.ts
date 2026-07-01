@@ -49,7 +49,10 @@ export interface Transaction {
   qrCodeUrl: string;
   paymentMethod: string;
   status: TransactionStatus;
-  midtransToken: string;
+  midtransToken?: string;
+  donorName?: string;
+  manualReceiptUrl?: string;
+  message?: string;
   createdAt: Timestamp;
 }
 

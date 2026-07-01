@@ -157,6 +157,60 @@ export async function getProjectDonors(projectId: string): Promise<Transaction[]
   return snap.docs.map((d) => d.data() as Transaction);
 }
 
+// ===== MANUAL TRANSACTIONS =====
+export async function getPendingManualTransactions(): Promise<Transaction[]> {
+  const q = query(collection(db, 'transactions'), orderBy('createdAt', 'desc'));
+  const snap = await getDocs(q);
+  const allTx = snap.docs.map((d) => d.data() as Transaction);
+  return allTx.filter(tx => tx.paymentMethod === 'manual' && tx.status === 'pending');
+}
+
+export async function approveManualTransaction(txId: string) {
+  const tx = await getTransaction(txId);
+  if (!tx || tx.status !== 'pending') return;
+
+  const batch = writeBatch(db);
+
+  // Update transaction status
+  batch.update(doc(db, 'transactions', txId), {
+    status: 'success',
+  });
+
+  // Update project collected amount
+  const projectRef = doc(db, 'projects', tx.projectId);
+  const projectSnap = await getDoc(projectRef);
+  if (projectSnap.exists()) {
+    const project = projectSnap.data() as Project;
+    const newCollected = project.collectedAmount + tx.amount;
+    const newProgress = Math.min(
+      Math.round((newCollected / project.targetAmount) * 100),
+      100
+    );
+    batch.update(projectRef, {
+      collectedAmount: newCollected,
+      progressPercent: newProgress,
+      updatedAt: Timestamp.now(),
+    });
+  }
+
+  // Update user total wakaf if they are logged in
+  if (tx.userId && tx.userId !== 'guest') {
+    const userRef = doc(db, 'users', tx.userId);
+    // User doc might not exist if they are deleted, but increment handles it safely if created
+    batch.update(userRef, {
+      totalWakaf: increment(tx.amount),
+    });
+  }
+
+  await batch.commit();
+}
+
+export async function rejectManualTransaction(txId: string) {
+  await updateDoc(doc(db, 'transactions', txId), {
+    status: 'failed',
+  } as DocumentData);
+}
+
 // ===== DANA USAGE =====
 export async function createDanaUsage(data: Omit<DanaUsage, 'id' | 'createdAt' | 'date'>) {
   const docRef = await addDoc(collection(db, 'danaUsages'), {
